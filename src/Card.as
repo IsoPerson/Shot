@@ -13,8 +13,13 @@ package  {
 		
 		
 		//TODO: возможно стоит сделать отдельный класс для каждой карты
-		public function Card() {
-			
+		public function Card(id:int, type:int, cardFunction:int, suit:int, value:int, radius:int) {
+			_id = id;
+			_type = type;
+			_cardFunction = cardFunction;
+			_suit = suit;
+			_value = value;
+			_radius = radius;
 		}
 		
 		public function get id():int {

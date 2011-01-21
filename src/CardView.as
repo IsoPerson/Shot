@@ -4,11 +4,12 @@ package  {
 	 * @author Chip
 	 */
 	public class CardView {
-		private const img_path_normal:String = "http://91.213.117.213/imgs/cards/min/size30per/";
-		private const img_path_big:String = "http://91.213.117.213/imgs/cards/size30per/";
+		private var img_normal_path:String;
+		private var img_big_path:String;
 		
-		public function CardView() {
-			
+		public function CardView(id:int) {
+			img_normal_path = ServerPaths.SERVER_URL + ServerPaths.IMG_NORMAL_SIZE_PATH + (id + 1).toString() + ServerPaths.IMG_NORMAL_ENDING;
+			img_path_big = ServerPaths.SERVER_URL + ServerPaths.IMG_BIG_SIZE_PATH + (id+1).toString() + ServerPaths.IMG_BIG_ENDING;
 		}
 		
 	}
