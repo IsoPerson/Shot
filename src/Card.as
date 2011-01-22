@@ -29,7 +29,6 @@ package  {
 		public function get type():int {
 			return _type;
 		}
-		
-		
+				
 	}
 }
