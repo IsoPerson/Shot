@@ -16,11 +16,9 @@
 		private function init(e:Event = null):void {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			trace("privetstvuyu");
-			var testDeck:IDeck = new Deck();
-			trace(testDeck.enabled);
-			trace(testDeck.emptyMainPack());
-			testDeck.resetMainPack();
-			//trace(testCard);
+			
+			var testCard:Card = new Card(0, 1, 4, Suits.CLUBS, 10, 3);
+			trace(testCard);
 		}
 		
 	}
