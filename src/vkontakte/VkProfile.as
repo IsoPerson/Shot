@@ -9,8 +9,8 @@ package vkontakte {
 		private var _gender:uint;//0 - man, 1 - woman
 		private var _avaUrl:String;
 		
-		public function Profile() {
-			
+		public function Profile(xmlProfile:XML) {
+			initFromXML(xmlProfile);
 		}
 		
 		public function initFromXML(xmlProfile:XML):void {
