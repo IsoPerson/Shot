@@ -2,4 +2,4 @@ bin
 temp
 test
 Shot.as3proj
-obj
+obj*
