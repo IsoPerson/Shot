@@ -1,6 +1,8 @@
 ﻿package {
+	import Events.VkFriendsEvent;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import vkontakte.VkFriends;
 	
 	/**
 	 * ...
@@ -17,8 +19,8 @@
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			trace("privetstvuyu");
 			
-			var testCard:Card = new Card(0, 1, 4, Suits.CLUBS, 10, 3);
-			trace(testCard);
+			var vkFriends:VkFriends = new VkFriends();
+			vkFriends.loadData();
 		}
 		
 	}

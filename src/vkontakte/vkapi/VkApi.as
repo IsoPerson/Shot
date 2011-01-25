@@ -1,7 +1,7 @@
-﻿package src.vkontakte.vkapi
+﻿package vkontakte.vkapi
 {
-	import src.vkapi.MD5;
-	import src.vkapi.Parameter;
+	//import src.vkapi.MD5;
+	//import src.vkapi.Parameter;
 
 	/**
 	 * Класс VkApi. Для каждого запроса создается экземпляр данного класса,

@@ -1,4 +1,4 @@
-﻿package src.vkontakte.vkapi
+﻿package vkontakte.vkapi
 {
 	public class Parameter
 	{
@@ -23,7 +23,7 @@
 			return name + "=" + value;
 		}
 		
-		private function additionalEncode (str: String)
+		private function additionalEncode (str: String): String
 		{
 			str = str.replace(/\"/g, '%22');
 			str = str.replace(/\#/g, '%23');

@@ -5,7 +5,7 @@ package vkontakte {
 	import flash.events.EventDispatcher;
 	import flash.events.Event;
 
-	import src.vkontakte.vkapi.VkApiNode;
+	import vkontakte.vkapi.VkApiNode;
 
 	/**
 	 * ...
@@ -21,15 +21,22 @@ package vkontakte {
 		private static var _friends:Vector.<IVkProfile>;
 		private static var _appFriends:Vector.<IVkProfile>;
 		
+		private var apiBuilder:ApiBuilder = new ApiBuilder();
+		
 		public function VkFriends() {
-			
+			api = apiBuilder.build();
 		}
 		
-		public function get friends():Vector.<Profile> {
+		public function loadData():void {
+			getFriends();
+			getAppFriends();
+		}
+		
+		public function get friends():Vector.<IVkProfile> {
 			return _friends;
 		}
 		
-		public function get appFriends():Vector.<Profile> {
+		public function get appFriends():Vector.<IVkProfile> {
 			return _appFriends;
 		}
 		
@@ -67,7 +74,11 @@ package vkontakte {
 		}
 		
 		private function appFriendsLoaded(event:Event):void {
-			
+			testClass(event.target.data);
+		}
+		
+		private function testClass(appFriendsXML:XML):void {
+			trace(appFriendsXML);
 		}
 		
 	}

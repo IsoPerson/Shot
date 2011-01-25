@@ -1,4 +1,4 @@
-﻿package src.vkontakte.vkapi
+﻿package vkontakte.vkapi
 {
 	
 	/**
