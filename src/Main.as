@@ -20,7 +20,11 @@
 			trace("privetstvuyu");
 			
 			var vkFriends:VkFriends = new VkFriends();
-			vkFriends.loadData();
+			//vkFriends.loadData();
+			
+			var testGraphic:TestGraphic = new TestGraphic();
+			addChild(testGraphic);
+			testGraphic.start();
 		}
 		
 	}
