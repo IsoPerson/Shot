@@ -1,7 +1,7 @@
-﻿package  server
+﻿package  Server
 {
 	
-	public class ServerPrices extends EventDispatcher
+	public class ServerPrices extends EventDispatcher 
 	{
 		
 		private var url_loader:URLLoader;
@@ -18,9 +18,9 @@
 		
 		private function onLoaded(e:Event)
 		{
-			//var data:XML=new XML(url_loader.data);	
+			
 			var info:ServerPricesInfo = new ServerPricesInfo(new XML(url_loader.data));
-			dispatchEvent(new ServerEvent(ServerEvent.PRICES_LOADED, ServerPricesInfo));
+			dispatchEvent(new ServerEvent(ServerEvent.PRICES_LOADED, info));
 			
 		}
 		

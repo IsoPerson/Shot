@@ -1,32 +1,33 @@
-package Server {
-	import flash.events.EventDispatcher;
-	/**
-	 * ...
-	 * @author Chip
-	 */
-	public class ServerPrices extends EventDispatcher implements IServerRequest{
-		private var _vipPrice:int;
-		private var _moneyPrice:int;
-		private var abilityPriceList:Vector.<AbilityPrice>;
+﻿package  Server
+{
+	
+	public class ServerPrices extends EventDispatcher 
+	{
 		
-		public function ServerPrices() {
-			super();
+		private var url_loader:URLLoader;
+		
+		public function ServerPrices(vip:uint, vote:uint, dayRewards:uint, dayRewardsVip:uint) 
+		{
+			var url_request:URLRequest = new URLRequest(ServerFacade.url+"getPrices.php?vip="+vip+"&vote="+vote+"&dayRewards="+dayRewards+"&dayRewardsVip="+dayRewardsVip);
+			url_loader = new URLLoader;			
+			url_loader.addEventListener(Event.COMPLETE,onLoaded);	
+			url_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,onError);	
+			url_loader.addEventListener(IOErrorEvent.IO_ERROR,onError);	
+			url_loader.load(url_request);	
 		}
 		
-		public function init():void {
+		private function onLoaded(e:Event)
+		{
+			
+			var info:ServerPricesInfo = new ServerPricesInfo(new XML(url_loader.data));
+			dispatchEvent(new ServerEvent(ServerEvent.PRICES_LOADED, info));
 			
 		}
 		
-		public function loadData():void {
-			
+		private function onError(e:Event)
+		{			
 		}
-		
-		public function addEventListener(eventType:String, listener:Function):void {
-			super.addEventListener(eventType, listener);
-		}
-		
-		//pub
-		
-	}
 
+	}
+	
 }
