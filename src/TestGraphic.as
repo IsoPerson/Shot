@@ -1,6 +1,6 @@
 package  {
 	import flash.display.MovieClip;
-	import shot.MainMenu;
+	import graphic.MainMenu;
 	/**
 	 * ...
 	 * @author Chip
