@@ -4,13 +4,13 @@
 	public class GameInfo  implements IServerInfo
 	{
 
-		public var _Name:String;
-		public var _id:Number;
-		public var _level:int;
-		public var _stake:int;
-		public var _nPlayers:int;
-		public var _qPlayers:int;
-		public var _type:String;
+		private var _Name:String;
+		private var _id:Number;
+		private var _level:int;
+		private var _stake:int;
+		private var _nPlayers:int;
+		private var _qPlayers:int;
+		private var _type:String;
 		
 		public function GameInfo(item:XML) 
 		{
