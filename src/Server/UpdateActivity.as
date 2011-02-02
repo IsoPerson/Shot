@@ -1,13 +1,13 @@
 ﻿package Server  
  {
 	
-	public class ServerAbilityPrices extends EventDispatcher
+	public class UpdateActivity extends EventDispatcher
 	{
 		private var url_loader:URLLoader;
 		
-		public function ServerAbilityPrices() 
+		public function UpdateActivity(user_id:Number) 
 		{
-			var url_request:URLRequest = new URLRequest(ServerFacade.url+"getAbilityPrice.php");
+			var url_request:URLRequest = new URLRequest(ServerFacade.url+"updateActivity.php?user_id="+user_id);
 			url_loader = new URLLoader;			
 			url_loader.addEventListener(Event.COMPLETE,onLoaded);	
 			url_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,onError);	
@@ -17,8 +17,8 @@
 		
 		private function onLoaded(e:Event)
 		{			
-			var info:ServerAbilityPricesInfo = new ServerAbilityPricesInfo(new XML(url_loader.data));
-			dispatchEvent(new ServerEvent(ServerEvent.ABILITYPRICES_LOADED, info));
+			var info:UpdateActivInfo = new UpdateActivInfo(new XML(url_loader.data));
+			dispatchEvent(new ServerEvent(ServerEvent.UPDATE_ACTIV, info));
 			
 		}
 		
