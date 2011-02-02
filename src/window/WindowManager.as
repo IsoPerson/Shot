@@ -11,12 +11,11 @@ package window {
 		}
 		
 		public function addWindow(window:IWindow):void {
-			for each (var wind:IWindow in windowQueue) {
-				if (wind.priority > window.priority) {
-					//windowQueue.splice....
+			for (var i:int = 0; i < windowQueue.length; ++i) {
+				if (windowQueue[i].priority > window.priority) {
+					windowQueue.splice(i, 0, window);
 				}
 			}
-			//(window.type == Window.INFO) ? windowQueue.push(window) : windowQueue.unshift(window);
 		}
 		
 	}

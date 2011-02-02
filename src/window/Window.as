@@ -1,4 +1,6 @@
 package window {
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	/**
 	 * ...
 	 * @author Chip
@@ -10,8 +12,14 @@ package window {
 		private var _type:uint;
 		private var _priority:uint;
 		
-		public function Window() {
+		private var _view:DisplayObject;
+		private var _parentStage:DisplayObjectContainer;
+		
+		public function Window(view:DisplayObject, type:uint, priority:uint) {
 			super();
+			_view = view;
+			_type = type;
+			_priority = priority;
 		}
 		
 		public function type():uint {
@@ -20,6 +28,14 @@ package window {
 		
 		public function priority():uint {
 			return _priority;
+		}
+		
+		public function parentStage():DisplayObjectContainer {
+			return _parentStage;
+		}
+		
+		public function show():void {
+			if (view) _parentStage.addChild(view);
 		}
 		
 	}
