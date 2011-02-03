@@ -6,11 +6,11 @@ package window {
 	 * @author Chip
 	 */
 	public interface IWindow {
-		function type():uint;
-		function priority():uint;
-		function parentStage():DisplayObjectContainer;
+		function get name():String;
+		function get priority():uint;
 		function show():void;
-		//function hide():void;
+		
+		function addEventListener(eventType:String, listener:Function):void;
 	}
 	
 }
