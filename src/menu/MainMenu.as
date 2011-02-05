@@ -1,5 +1,6 @@
 package menu {
 	import flash.display.MovieClip;
+	import flash.events.MouseEvent;
 	import graphic.Chat;
 	import graphic.MainMenuView;
 	/**
@@ -9,14 +10,15 @@ package menu {
 	public class MainMenu {
 		private var _view:MovieClip;//MainMenuView;
 		
-		private var _shopTower:MovieClip;
-		private var _bankTower:MovieClip;
-		private var _gameTower:MovieClip;
+		private var _shopTower:MenuTower;
+		private var _bankTower:MenuTower;
+		private var _gameTower:MenuTower;
 		
 		public function MainMenu(view:MovieClip = null) {
 			_view = new MainMenuView();
 			initObjects();
 			setObjectsMode();
+			addListeners();
 		}
 		
 		public function get view():MovieClip {
@@ -24,15 +26,29 @@ package menu {
 		}
 		
 		private function initObjects():void {
-			_shopTower = view.shopTower as MovieClip;
-			_bankTower = view.bankTower as MovieClip;
-			_gameTower = view.gameTower as MovieClip;
+			var hidenObjects:Vector.<MovieClip> = new Vector.<MovieClip>;
+			_shopTower = new MenuTower(view.shopTower as MovieClip);
+			hidenObjects.push(view.shopTower.wind_1);
+			hidenObjects.push(view.shopTower.wind_2);
+			hidenObjects.push(view.shopTower.wind_3);
+			_shopTower.addHidenObjects(hidenObjects);
+			
+			_bankTower = new MenuTower(view.bankTower as MovieClip);
+			hidenObjects = new Vector.<MovieClip>;
+			hidenObjects.push(view.bankTower.wind_1);
+			hidenObjects.push(view.bankTower.wind_2);
+			_bankTower.addHidenObjects(hidenObjects);
+			
+			_gameTower = new MenuTower(view.gameTower as MovieClip, view.gameTower.doors);
+			hidenObjects = new Vector.<MovieClip>;
+			hidenObjects.push(view.gameTower.winds);
+			_gameTower.addHidenObjects(hidenObjects);
 		}
 		
 		private function setObjectsMode():void {
-			_shopTower.gotoAndStop(0);
-			_bankTower.gotoAndStop(0);
-			_gameTower.doors.gotoAndStop(0);
+		}
+		
+		private function addListeners():void {
 		}
 		
 	}
