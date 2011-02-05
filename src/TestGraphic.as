@@ -1,12 +1,13 @@
 package  {
 	import flash.display.MovieClip;
-	import graphic.MainMenu;
+	import graphic.MainMenuView;
 	/**
 	 * ...
 	 * @author Chip
 	 */
 	public class TestGraphic extends MovieClip{
 		private var mainMenu:MovieClip;
+		//var chat:chat
 		
 		public function TestGraphic() {
 			super();

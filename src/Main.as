@@ -2,13 +2,17 @@
 	import Events.VkFriendsEvent;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import menu.MainMenu;
 	import vkontakte.VkFriends;
+	
+	import graphic.MainMenuView;
 	
 	/**
 	 * ...
 	 * @author Chip
 	 */
 	public class Main extends Sprite {
+		private var mainMenu:MainMenu;
 		
 		public function Main():void {
 			if (stage) init();
@@ -22,9 +26,10 @@
 			var vkFriends:VkFriends = new VkFriends();
 			//vkFriends.loadData();
 			
-			var testGraphic:TestGraphic = new TestGraphic();
-			addChild(testGraphic);
-			testGraphic.start();
+			mainMenu = new MainMenu();
+			addChild(mainMenu.view);
+			
+			//addChild(testGraphic);
 		}
 		
 	}
