@@ -9,6 +9,7 @@ package menu {
 		private var _view:MovieClip;
 		private var _animationView:MovieClip;
 		private var _hidenObjects:Vector.<MovieClip>;
+		private var _room:MovieClip;
 		
 		public function MenuTower(view:MovieClip, animationView:MovieClip = null ) {
 			_view = view;
@@ -22,6 +23,13 @@ package menu {
 		public function addHidenObjects(objects:Vector.<MovieClip>):void {
 			_hidenObjects = objects;
 			hideHidenObjects();
+		}
+		
+		public function setRoom(room:MovieClip):void {
+			_room = room;
+			if (room) {
+				_view.addEventListener(MouseEvent.CLICK, openRoom);
+			}
 		}
 		
 		private function setMode():void {

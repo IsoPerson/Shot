@@ -26,29 +26,41 @@ package menu {
 		}
 		
 		private function initObjects():void {
-			var hidenObjects:Vector.<MovieClip> = new Vector.<MovieClip>;
 			_shopTower = new MenuTower(view.shopTower as MovieClip);
+			initShopTowerHidenObjects();
+			_bankTower = new MenuTower(view.bankTower as MovieClip);
+			initBankTowerHidenObjects();
+			_gameTower = new MenuTower(view.gameTower as MovieClip, view.gameTower.doors);
+			initGameTowerHidenObjects();
+		}
+		
+		private function initShopTowerHidenObjects():void {
+			var hidenObjects:Vector.<MovieClip> = new Vector.<MovieClip>;
 			hidenObjects.push(view.shopTower.wind_1);
 			hidenObjects.push(view.shopTower.wind_2);
 			hidenObjects.push(view.shopTower.wind_3);
 			_shopTower.addHidenObjects(hidenObjects);
-			
-			_bankTower = new MenuTower(view.bankTower as MovieClip);
+		}
+		private function initBankTowerHidenObjects():void {
+			var hidenObjects:Vector.<MovieClip> = new Vector.<MovieClip>;
 			hidenObjects = new Vector.<MovieClip>;
 			hidenObjects.push(view.bankTower.wind_1);
 			hidenObjects.push(view.bankTower.wind_2);
 			_bankTower.addHidenObjects(hidenObjects);
-			
-			_gameTower = new MenuTower(view.gameTower as MovieClip, view.gameTower.doors);
+		}
+		private function initGameTowerHidenObjects():void {
+			var hidenObjects:Vector.<MovieClip> = new Vector.<MovieClip>;
 			hidenObjects = new Vector.<MovieClip>;
 			hidenObjects.push(view.gameTower.winds);
 			_gameTower.addHidenObjects(hidenObjects);
 		}
-		
-		private function setObjectsMode():void {
+				
+		private function addListeners():void {
+			addShopTowerListeners();
 		}
 		
-		private function addListeners():void {
+		private function addShopTowerListeners():void {
+			//_shopToweraddEventListeners
 		}
 		
 	}

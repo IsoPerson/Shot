@@ -1,4 +1,7 @@
-package window {
+package managers {
+	import window.IWindow;
+	import window.Window;
+	
 	import Events.WindowEvent;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
