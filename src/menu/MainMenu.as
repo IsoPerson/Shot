@@ -5,7 +5,7 @@ package menu {
 	import flash.events.MouseEvent;
 	
 	import graphic.MainMenuView;
-	import graphic.rooms.ShopRoomView;
+	import graphic.gameRooms.ShopRoomView;
 	/**
 	 * ...
 	 * @author Chip
@@ -16,6 +16,7 @@ package menu {
 		private var _shopTower:MenuTower;
 		private var _bankTower:MenuTower;
 		private var _gameTower:MenuTower;
+		private var _pointer:MenuPointer;
 		
 		public function MainMenu(view:MovieClip = null) {
 			_view = new MainMenuView();
@@ -33,6 +34,11 @@ package menu {
 		}
 		
 		private function initObjects():void {
+			initTowers();
+			initPointer();
+		}
+		
+		private function initTowers():void {
 			_shopTower = new MenuTower(view.shopTower as MovieClip);
 			initShopTowerHidenObjects();
 			_bankTower = new MenuTower(view.bankTower as MovieClip);
@@ -40,6 +46,10 @@ package menu {
 			_gameTower = new MenuTower(view.gameTower as MovieClip, view.gameTower.doors);
 			initGameTowerHidenObjects();
 			initTowersRoom();
+		}
+		
+		private function initPointer():void {
+			_pointer = new MenuPointer(view.pointer);
 		}
 		
 		private function initShopTowerHidenObjects():void {
