@@ -1,4 +1,4 @@
-package rooms {
+package gameRooms {
 	import Controllers.ViewController;
 	import flash.display.MovieClip;
 	/**
@@ -6,15 +6,15 @@ package rooms {
 	 * @author Chip
 	 */
 	public class Room extends ViewController{
-		private var _roomId:String;
+		private var _id:String;
 		
-		public function Room(view:MovieClip, roomId:String ) {
+		public function Room(view:MovieClip, id:String ) {
 			super(view);
-			_roomId = roomId;
+			_id = id;
 		}
 		
-		public function get roomId():String {
-			return _roomId;
+		public function get id():String {
+			return _id;
 		}
 		
 	}

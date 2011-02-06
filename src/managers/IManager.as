@@ -6,8 +6,8 @@ package managers {
 	 * @author Chip
 	 */
 	public interface IManager {
-		function register(object:DisplayObject, object_id:String):void;
-		function show(object_id:String):void;
+		//static function register(object:DisplayObject, object_id:String):void;
+		//static function show(object_id:String):void;
 	}
 	
 }

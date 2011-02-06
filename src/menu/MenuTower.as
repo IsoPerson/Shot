@@ -1,4 +1,6 @@
 package menu {
+	import managers.RoomsManager;
+	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	/**
@@ -9,7 +11,7 @@ package menu {
 		private var _view:MovieClip;
 		private var _animationView:MovieClip;
 		private var _hidenObjects:Vector.<MovieClip>;
-		private var _room:MovieClip;
+		private var _roomId:String;
 		
 		public function MenuTower(view:MovieClip, animationView:MovieClip = null ) {
 			_view = view;
@@ -25,9 +27,9 @@ package menu {
 			hideHidenObjects();
 		}
 		
-		public function setRoom(room:MovieClip):void {
-			_room = room;
-			if (room) {
+		public function setRoomId(roomId:String):void {
+			_roomId = roomId;
+			if (roomId) {
 				_view.addEventListener(MouseEvent.CLICK, openRoom);
 			}
 		}
@@ -65,6 +67,10 @@ package menu {
 					hidenObject.visible = true;
 				}
 			}
+		}
+		
+		private function openRoom(event:MouseEvent = null):void {
+			RoomsManager.getInstance().show(_roomId);
 		}
 		
 	}

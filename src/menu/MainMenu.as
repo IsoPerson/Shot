@@ -1,8 +1,11 @@
 package menu {
+	import managers.RoomsManager;
+	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
-	import graphic.Chat;
+	
 	import graphic.MainMenuView;
+	import graphic.rooms.ShopRoomView;
 	/**
 	 * ...
 	 * @author Chip
@@ -16,13 +19,17 @@ package menu {
 		
 		public function MainMenu(view:MovieClip = null) {
 			_view = new MainMenuView();
+			addRoomsToManager();
 			initObjects();
-			setObjectsMode();
 			addListeners();
 		}
 		
 		public function get view():MovieClip {
 			return _view;
+		}
+		
+		private function addRoomsToManager():void {
+			RoomsManager.getInstance().register(new ShopRoomView(), RoomsManager.SHOP_ROOM);
 		}
 		
 		private function initObjects():void {
@@ -32,6 +39,7 @@ package menu {
 			initBankTowerHidenObjects();
 			_gameTower = new MenuTower(view.gameTower as MovieClip, view.gameTower.doors);
 			initGameTowerHidenObjects();
+			initTowersRoom();
 		}
 		
 		private function initShopTowerHidenObjects():void {
@@ -53,6 +61,12 @@ package menu {
 			hidenObjects = new Vector.<MovieClip>;
 			hidenObjects.push(view.gameTower.winds);
 			_gameTower.addHidenObjects(hidenObjects);
+		}
+		
+		private function initTowersRoom():void {
+			_shopTower.setRoomId(RoomsManager.SHOP_ROOM);
+			_bankTower.setRoomId(RoomsManager.BANK_ROOM);
+			_gameTower.setRoomId(RoomsManager.GAME_REQUESTS_ROOM);
 		}
 				
 		private function addListeners():void {

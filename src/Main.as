@@ -2,7 +2,9 @@
 	import Events.VkFriendsEvent;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	
 	import menu.MainMenu;
+	import managers.RoomsManager;
 	import vkontakte.VkFriends;
 	
 	import graphic.MainMenuView;
@@ -25,7 +27,8 @@
 			
 			var vkFriends:VkFriends = new VkFriends();
 			//vkFriends.loadData();
-			
+
+			RoomsManager.setStage(this);
 			mainMenu = new MainMenu();
 			addChild(mainMenu.view);
 			
