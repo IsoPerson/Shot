@@ -9,7 +9,7 @@ package Events {
 		
 		public static const CLOSE:String = "close";
 		
-		public function WindowEvent(eventType) {
+		public function WindowEvent(eventType:String) {
 			super(eventType);
 		}
 		

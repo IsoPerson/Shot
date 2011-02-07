@@ -2,6 +2,7 @@ package managers {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	import gameRooms.Room;
+	import Events.WindowEvent;
 	
 	import flash.display.DisplayObject;
 	/**
@@ -34,13 +35,17 @@ package managers {
 			_instance._stage = stage;
 		}
 		
-		public function register(object:DisplayObject, object_id:String):void {
-			addRoom(object as MovieClip, object_id);
+		public function register(object:Room):void {
+			addRoom(object);
+			addRoomListeners(object);
 		}
 		
-		private function addRoom(room:MovieClip, roomId:String):void {
+		private function addRoom(room:Room):void {
 			if (!rooms) {rooms = new Vector.<Room>();}
-			rooms.push(new Room(room, roomId));
+			rooms.push(room);
+		}
+		private function addRoomListeners(room:Room):void {
+			room.view.addEventListener(WindowEvent.CLOSE, closeRoomHandler);
 		}
 		
 		public function show(object_id:String):void {
@@ -56,8 +61,15 @@ package managers {
 			return null;
 		}
 		
-		private function addToStage(room:MovieClip):void {
-			if (room) _stage.addChild(room);
+		private function addToStage(roomView:MovieClip):void {
+			if (roomView) _stage.addChild(roomView);
+		}
+		private function removeFromStage(roomView:MovieClip):void {
+			if (roomView) _stage.removeChild(roomView);
+		}
+		
+		private function closeRoomHandler(event:WindowEvent):void {
+			removeFromStage(event.target as MovieClip);
 		}
 		
 	}

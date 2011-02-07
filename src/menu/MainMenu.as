@@ -1,4 +1,6 @@
 package menu {
+	import gameRooms.GameRequestsRoom;
+	import gameRooms.ShopRoom;
 	import managers.RoomsManager;
 	
 	import flash.display.MovieClip;
@@ -30,7 +32,8 @@ package menu {
 		}
 		
 		private function addRoomsToManager():void {
-			RoomsManager.getInstance().register(new ShopRoomView(), RoomsManager.SHOP_ROOM);
+			RoomsManager.getInstance().register(new ShopRoom());
+			RoomsManager.getInstance().register(new GameRequestsRoom());
 		}
 		
 		private function initObjects():void {
