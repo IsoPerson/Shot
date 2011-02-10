@@ -2,9 +2,11 @@
 	import Events.VkFriendsEvent;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import gameChat.Chat;
 	
 	import menu.MainMenu;
 	import managers.RoomsManager;
+	import managers.WindowsManager;
 	import vkontakte.VkFriends;
 	
 	import graphic.MainMenuView;
@@ -15,6 +17,7 @@
 	 */
 	public class Main extends Sprite {
 		private var mainMenu:MainMenu;
+		private var chat:Chat;
 		
 		public function Main():void {
 			if (stage) init();
@@ -29,8 +32,11 @@
 			//vkFriends.loadData();
 
 			RoomsManager.setStage(this);
+			WindowsManager.setStage(this);
 			mainMenu = new MainMenu();
+			chat = new Chat();
 			addChild(mainMenu.view);
+			addChild(chat.view);
 			
 			//addChild(testGraphic);
 		}

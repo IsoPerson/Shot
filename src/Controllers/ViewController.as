@@ -1,10 +1,11 @@
 package Controllers {
 	import flash.display.MovieClip;
+	import flash.events.EventDispatcher;
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class ViewController {
+	public class ViewController extends EventDispatcher{
 		protected var _view:MovieClip;
 		
 		public function ViewController(view:MovieClip) {
@@ -17,6 +18,10 @@ package Controllers {
 		
 		public function set view(value:MovieClip):void {
 			_view = value;
+		}
+		
+		public function getMovieClip(movieClipName:String):MovieClip {
+			return _view.getChildByName(movieClipName) as MovieClip;
 		}
 		
 	}

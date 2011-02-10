@@ -1,19 +1,17 @@
 package gameRooms {
-	import Events.WindowEvent;
-	import managers.RoomsManager;
-	import graphic.gameRooms.ShopRoomView;
-	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
+	import graphic.GameRoomView;
+	import managers.RoomsManager;
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class ShopRoom extends Room {
+	public class GameRoom extends Room{
 		private var _exitBtn:MovieClip;
 		
-		public function ShopRoom() {
-			super(new ShopRoomView(), RoomsManager.SHOP_ROOM);
+		public function GameRoom() {
+			super(new GameRoomView(), RoomsManager.GAME_ROOM);
 			initObjects();
 			setObjectsMode();
 			addListeners();
@@ -29,11 +27,7 @@ package gameRooms {
 		}
 		
 		private function addListeners():void {
-			_exitBtn.addEventListener(MouseEvent.CLICK, exitHandler);
-		}
-		
-		private function exitHandler(event:MouseEvent):void {
-			view.dispatchEvent(new WindowEvent(WindowEvent.CLOSE));
+			_exitBtn.addEventListener(MouseEvent.CLICK, closeHandler);
 		}
 		
 	}

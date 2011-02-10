@@ -56,7 +56,7 @@ package managers {
 		
 		private function getObjectById(id:String):DisplayObject {
 			for each (var room:Room in rooms) {
-				if (room.id == id) return room.view;
+				if (room.name == id) return room.view;
 			}
 			return null;
 		}

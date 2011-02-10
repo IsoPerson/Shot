@@ -1,7 +1,13 @@
 package menu {
+	import gameRooms.BankRoom;
 	import gameRooms.GameRequestsRoom;
+	import gameRooms.GameRoom;
 	import gameRooms.ShopRoom;
+	import graphic.Tab_createGame;
 	import managers.RoomsManager;
+	import managers.WindowsManager;
+	import menu.menuPointer.MenuPointer;
+	import gameWindows.CreateGameWindow;
 	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
@@ -22,7 +28,9 @@ package menu {
 		
 		public function MainMenu(view:MovieClip = null) {
 			_view = new MainMenuView();
+			
 			addRoomsToManager();
+			addWindowsToManager();
 			initObjects();
 			addListeners();
 		}
@@ -34,6 +42,12 @@ package menu {
 		private function addRoomsToManager():void {
 			RoomsManager.getInstance().register(new ShopRoom());
 			RoomsManager.getInstance().register(new GameRequestsRoom());
+			RoomsManager.getInstance().register(new BankRoom());
+			RoomsManager.getInstance().register(new GameRoom());
+		}
+		
+		private function addWindowsToManager():void {
+			WindowsManager.getInstance().register(new CreateGameWindow());
 		}
 		
 		private function initObjects():void {
