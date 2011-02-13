@@ -28,8 +28,7 @@
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			trace("privetstvuyu");
 			
-			var vkFriends:VkFriends = new VkFriends();
-			//vkFriends.loadData();
+			var vkFriends:VkFriends = new VkFriends(); 
 
 			RoomsManager.setStage(this);
 			WindowsManager.setStage(this);
@@ -41,6 +40,5 @@
 			//addChild(testGraphic);
 		}
 		
-	}
-	
+	}	
 }
