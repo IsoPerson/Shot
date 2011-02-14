@@ -6,15 +6,15 @@ package gameLayers {
 	 * @author Chip
 	 */
 	public class Layer extends Sprite {
-		private var _name:String;
+		private var _layerName:String;
 		
-		public function Layer(name:String) {
+		public function Layer(layerName:String) {
 			super();
-			_name = name;
+			_layerName = layerName;
 		}
 
-		public function get name():String {
-			return _name;
+		public function get layerName():String {
+			return _layerName;
 		}
 		
 	}
