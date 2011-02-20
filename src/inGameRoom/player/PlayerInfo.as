@@ -1,31 +1,34 @@
 package inGameRoom.player {
+	import flash.events.EventDispatcher;
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class PlayerInfo {
-		private var _vk_id:int;
-		private var _vk_name:String;
-		private var _vip:Boolean;
-		
+	public class PlayerInfo extends EventDispatcher{
+		private var _vkInfo:PlayerVkInfo;
 		private var ava:PlayerAva;
-		private var details:PlayerDetails;
-		
-		private var _position:uint;
-		private var _role:uint;
-		private var _radius:uint;
-		private var _isCreator:Boolean;
-		private var _alive:Boolean;
-		private var hp:int;
-		
-		private var _privateCards:Vector.<Card>;
-		private var _openCards:Vector.<Card>;
-		
+		private var _baseInfo:PlayerBaseInfo;
+		private var _gameInfo:PlayerGameInfo;
 		
 		public function PlayerInfo() {
+			super();
+		}
+		
+		public function setVkInfo(playerVkInfo:PlayerVkInfo):void {
+			_vkInfo = playerVkInfo;
+		}
+		
+		public function setBaseInfo(playerBaseInfo:PlayerBaseInfo):void {
+			_baseInfo = playerBaseInfo;
+		}
+		
+		public function setGameInfo(playerGameInfo:PlayerGameInfo):void {
+			_gameInfo = playerGameInfo;
+		}
+		
+		public function initPlayerGameInfo(playerGameInfo:PlayerGameInfo):void {
 			
 		}
 		
 	}
-
 }

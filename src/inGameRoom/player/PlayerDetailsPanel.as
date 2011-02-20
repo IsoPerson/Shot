@@ -6,10 +6,10 @@ package inGameRoom.player {
 	 * ...
 	 * @author Chip
 	 */
-	public class PlayerDetails extends ViewController{
+	public class PlayerDetailsPanel extends ViewController{
 		
-		public function PlayerDetails() {
-			super(new MovieClip());
+		public function PlayerDetailsPanel(view:MovieClip) {
+			super(view);
 		}
 		
 	}
