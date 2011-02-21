@@ -117,14 +117,14 @@ package menu {
 		
 		private function addShopTowerListeners():void {
 			//_shopToweraddEventListeners
-			RoomsManager.getInstance().addEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);
-			RoomsManager.getInstance().addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
+			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);
+			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
 		}
 		
 		private function getShopInfo(e:Event):void
 		{
 			
-			RoomsManager.getInstance().removeEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);
+			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).removeEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);
 			RoomsManager.getInstance().setRoomInfo(_serverFacade.getShopInfo,RoomsManager.SHOP_ROOM);
 		}
 		

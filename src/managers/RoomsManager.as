@@ -54,12 +54,6 @@ package managers {
 		}
 		private function addRoomListeners(room:Room):void {
 			room.view.addEventListener(WindowEvent.CLOSE, closeRoomHandler);
-			for each (var room:Room in rooms) {
-				if (room.name == SHOP_ROOM) 
-				{	room.addEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);
-					room.addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
-				}
-			}	
 		}
 		
 		public function show(object_id:String):void {
@@ -69,6 +63,13 @@ package managers {
 					if (room.name == object_id) {room.init();}
 				}
 			}
+		}
+		
+		public function getRoom(id:String):Room {
+			for each (var room:Room in rooms) {
+				if (room.name == id) return room;
+			}
+			return null;
 		}
 		
 		private function getObjectById(id:String):DisplayObject {
@@ -87,17 +88,6 @@ package managers {
 		
 		private function closeRoomHandler(event:WindowEvent):void {
 			removeFromStage(event.target as MovieClip);
-		}
-		
-		
-		
-		
-		private function getShopInfo(e:Event):void
-		{			
-			for each (var room:Room in rooms) {
-				if (room.name == SHOP_ROOM) { room.removeEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);}
-			}
-			_instance.dispatchEvent(new Event(RoomsManager.GET_SHOP_INFO));
 		}
 		
 		public function setRoomInfo(object:IServerInfo, id:String):void 
