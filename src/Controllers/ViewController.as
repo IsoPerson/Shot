@@ -5,7 +5,7 @@ package Controllers {
 	 * ...
 	 * @author Chip
 	 */
-	public class ViewController extends EventDispatcher{
+	public class ViewController extends EventDispatcher implements IViewController{
 		protected var _view:MovieClip;
 		
 		public function ViewController(view:MovieClip) {
