@@ -8,7 +8,7 @@
 	import managers.RoomsManager;
 	import managers.WindowsManager;
 	import vkontakte.VkFriends;
-	
+	import flash.display.StageScaleMode;
 	import graphic.MainMenuView;
 	
 	/**
@@ -30,7 +30,7 @@
 			
 			var vkFriends:VkFriends = new VkFriends();
 			//vkFriends.loadData();
-
+			stage.scaleMode = StageScaleMode.NO_SCALE;
 			RoomsManager.setStage(this);
 			WindowsManager.setStage(this);
 			mainMenu = new MainMenu();

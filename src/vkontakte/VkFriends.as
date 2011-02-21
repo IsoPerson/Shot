@@ -81,6 +81,8 @@ package vkontakte {
 			trace(appFriendsXML);
 		}
 		
+		
+		
 	}
 
 }

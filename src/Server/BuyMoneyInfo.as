@@ -6,7 +6,7 @@
 
 		private var _answer:Boolean = false;
 		private var _description:String = "";
-		private var _money:Number;
+		private var _money:Number = 0;
 		
 		
 		public function BuyMoneyInfo(response:XML) 

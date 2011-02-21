@@ -3,3 +3,8 @@ temp
 test
 Shot.as3proj
 obj*
+.metadata
+Shot/html-template
+Shot/.settings
+Shot/bin-debug
+Shot

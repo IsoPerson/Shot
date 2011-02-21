@@ -6,7 +6,7 @@
 
 		private var _answer:Boolean = false;
 		private var _description:String = "";
-		private var _id:Number;
+		private var _id:Number = 0;
 		
 		
 		public function GameIdInfo(response:XML) 
