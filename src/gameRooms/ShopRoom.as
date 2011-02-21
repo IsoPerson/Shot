@@ -1,6 +1,6 @@
 package gameRooms {
 	import Events.WindowEvent;
-	
+	import Events.BuyEvent;
 	import Server.IServerInfo;
 	import Server.ServerAbilityPricesInfo;
 	
@@ -20,6 +20,7 @@ package gameRooms {
 	 */
 	public class ShopRoom extends Room {
 		private var _exitBtn:MovieClip;
+		private var _buyBtn:MovieClip;
 		private var _info:Array = null;
 		private var _abilityList:MovieClip = null;
 		private var _lastItem:MovieClip = null;
@@ -47,15 +48,19 @@ package gameRooms {
 		
 		private function initObjects():void {
 			_exitBtn = getMovieClip("exitBtn");
+			_buyBtn = getMovieClip("buyBtn");
 		}
 		
 		private function setObjectsMode():void {
 			_exitBtn.mouseChildren = false;
 			_exitBtn.buttonMode = true;
+			_buyBtn.mouseChildren = false;
+			_buyBtn.buttonMode = true;
 		}
 		
 		private function addListeners():void {
 			_exitBtn.addEventListener(MouseEvent.CLICK, exitHandler);
+			_buyBtn.addEventListener(MouseEvent.CLICK, buyHandler);
 		}
 		
 		private function exitHandler(event:MouseEvent):void {
@@ -75,17 +80,18 @@ package gameRooms {
 					var col:int;
 					var row:int;
 					row = col = 0;
-					_abilityList.x = 130;
+					_abilityList.x = 115;
 					_abilityList.y = 140;
 					
 					for (i=0; i< _info.length; i++)
 					{
 						item = new AbilityView();
-						item.x = 180*col;
+						item.x = 130*col;
 						item.y = 92*row;
+						
 						item.pushedFilter.visible = false;
 						col++;
-						if (col==3) {col = 0; row++;}
+						if (col==4) {col = 0; row++;}
 						item.priceTxt.text = _info[i].price+"$";
 						item.labelTxt.text = _info[i].label;
 						item.name = "a"+i;
@@ -149,6 +155,28 @@ package gameRooms {
 		{
 			view.removeChild(_infoMC);
 		}
+		
+		
+		private function buyHandler(event:MouseEvent):void {
+			
+			if (_lastItem != null)
+			{
+				var num:Number = Number(_lastItem.name.slice(1,_lastItem.name.length));
+				trace("buy num="+num);
+				dispatchEvent(new BuyEvent(BuyEvent.BUY_ABILITY,num));
+				_lastItem.pushedFilter.visible = false;
+				_lastItem = null;
+			
+			}
+			
+		}
+		
+		//public function buyOk()
+		//{
+			//_lastItem.pushedFilter.visible = false;
+			//_lastItem = null;
+			
+		//}
 	}
 
 }
