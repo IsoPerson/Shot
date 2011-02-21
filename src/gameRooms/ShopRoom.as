@@ -1,6 +1,7 @@
 package gameRooms {
 	import Events.WindowEvent;
 	import Events.BuyEvent;
+	import flash.text.TextField;
 	import Server.IServerInfo;
 	import Server.ServerAbilityPricesInfo;
 	
@@ -86,13 +87,16 @@ package gameRooms {
 					for (i=0; i< _info.length; i++)
 					{
 						item = new AbilityView();
+						item.mouseChildren = false;
 						item.x = 130*col;
 						item.y = 92*row;
 						
 						item.pushedFilter.visible = false;
 						col++;
 						if (col==4) {col = 0; row++;}
+						
 						item.priceTxt.text = _info[i].price+"$";
+						(item.priceTxt as TextField).selectable = false;
 						item.labelTxt.text = _info[i].label;
 						item.name = "a"+i;
 						if (_info[i].type != "V")
@@ -144,7 +148,10 @@ package gameRooms {
 			{	_infoMC = new AbilityInfoView();
 				//_infoMC.mouseChildren = false;
 				
-			}						
+			}
+			_infoMC.mouseEnabled = false;
+			_infoMC.mouseChildren = false;
+			_infoMC.infoTxt.selectable = false;
 			_infoMC.infoTxt.text = _info[num].info; 
 			_infoMC.x = _abilityList.x + item.x + 50;
 			_infoMC.y = _abilityList.y + item.y;
