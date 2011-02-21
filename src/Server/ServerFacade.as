@@ -151,7 +151,7 @@ package Server {
 		private function onbuyAbility(e:ServerEvent):void
 		{
 			_buyAbil.removeEventListener(ServerEvent.BUY_ABILITY,onbuyAbility);
-			dispatchEvent(e); 
+			dispatchEvent(new ServerEvent(ServerEvent.BUY_ABILITY,e.data)); 
 		}
 		
 		

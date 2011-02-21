@@ -1,4 +1,8 @@
 package menu {
+	import Events.BuyEvent;
+	
+	import Server.ServerAnswer;
+	import Server.ServerEvent;
 	import Server.ServerFacade;
 	
 	import flash.display.MovieClip;
@@ -114,7 +118,7 @@ package menu {
 		private function addShopTowerListeners():void {
 			//_shopToweraddEventListeners
 			RoomsManager.getInstance().addEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);
-			
+			RoomsManager.getInstance().addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
 		}
 		
 		private function getShopInfo(e:Event):void
@@ -124,6 +128,27 @@ package menu {
 			RoomsManager.getInstance().setRoomInfo(_serverFacade.getShopInfo,RoomsManager.SHOP_ROOM);
 		}
 		
+		private function buyAbility(e:BuyEvent):void
+		{			
+			
+			_serverFacade.buyAbilityRequest(102841,e.count);
+			_serverFacade.addEventListener(ServerEvent.BUY_ABILITY, onBuyAbility);
+		}
+		
+		private function onBuyAbility(e:ServerEvent):void
+		{
+			var info:ServerAnswer = e.data as ServerAnswer;
+			_serverFacade.removeEventListener(ServerEvent.BUY_ABILITY, onBuyAbility);
+			if (info.answer)
+			{
+				//RoomsManager.getInstance().onBuyAbility(RoomsManager.SHOP_ROOM);
+				//занести в список способностей и обновить деньги
+			}
+			else
+			{
+				//ошибка покупки
+			}
+		}
 	}
 
 }

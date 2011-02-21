@@ -19,6 +19,7 @@ package gameRooms {
 		
 	 public function init():void {}
 	 public function setInfo(obj:IServerInfo):void {}
+	 //public function buyOk(obj:IServerInfo):void {}
 	}
 
 }

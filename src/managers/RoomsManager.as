@@ -1,4 +1,5 @@
 package managers {
+	import Events.BuyEvent;
 	import Events.WindowEvent;
 	
 	import Server.IServerInfo;
@@ -6,9 +7,8 @@ package managers {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
-	import flash.events.EventDispatcher;
 	import flash.events.Event;
-	
+	import flash.events.EventDispatcher;
 	
 	import gameRooms.Room;
 
@@ -55,7 +55,10 @@ package managers {
 		private function addRoomListeners(room:Room):void {
 			room.view.addEventListener(WindowEvent.CLOSE, closeRoomHandler);
 			for each (var room:Room in rooms) {
-				if (room.name == SHOP_ROOM) { room.addEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);}
+				if (room.name == SHOP_ROOM) 
+				{	room.addEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);
+					room.addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
+				}
 			}	
 		}
 		
@@ -103,6 +106,20 @@ package managers {
 				if (room.name == id) {room.setInfo(object);}
 			}
 		}
+		
+		private function buyAbility(e:BuyEvent):void
+		{						
+			//trace("2");
+			_instance.dispatchEvent(new BuyEvent(BuyEvent.BUY_ABILITY,(e.count+1)));
+		}
+		
+		//private function onBuyAbility(id:String):void
+		//{			
+		//	for each (var room:Room in rooms) {
+		//		if (room.name == id) {room.buyOk();}
+		//	}
+			
+		//}
 	}
 
 }
