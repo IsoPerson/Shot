@@ -1,4 +1,6 @@
 package inGameRoom.player {
+	import abilityes.Ability;
+	import abilityes.AbilityViewForPlayerDetails;
 	import Controllers.ViewController;
 	import flash.display.MovieClip;
 	/**
@@ -20,11 +22,14 @@ package inGameRoom.player {
 			return _playerInfo;
 		}
 		
+		public function addAbility(ability:Ability):void {
+			_details.addAbility(new AbilityViewForPlayerDetails(_playerInfo.addAbility(ability)));
+		}
+		
 		private function initObjects():void {
 			_details = getMovieClip("detailsPanel");
 		}
 		
 		
 	}
-
 }

@@ -1,4 +1,5 @@
 package inGameRoom.player {
+	import abilityes.Ability;
 	import flash.events.EventDispatcher;
 	/**
 	 * ...
@@ -28,6 +29,14 @@ package inGameRoom.player {
 		
 		public function initPlayerGameInfo(playerGameInfo:PlayerGameInfo):void {
 			
+		}
+		
+		public function get gameInfo():PlayerGameInfo {
+			return _gameInfo;
+		}
+		
+		public function addAbility(ability:Ability):void {
+			return _gameInfo.abilityList.length + 1; // TODO: сделать чтобы рельно добавлялась способность в список способностей
 		}
 		
 	}

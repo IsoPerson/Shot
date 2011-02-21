@@ -44,6 +44,9 @@ package inGameRoom.player {
 		public function set openCards(value:Vector.<Card>):void {
 			_openCards = value;
 		}
+		public function set abilityList(value:Vector.<Ability>):void {
+			_abilityList = value;
+		}
 		
 		public function get role():uint {
 			return _role;
@@ -63,8 +66,11 @@ package inGameRoom.player {
 		public function get privateCards():Vector.<Card> {
 			return _privateCards;
 		}
-		public function set openCards():Vector.<Card> {
+		public function get openCards():Vector.<Card> {
 			return _openCards;
+		}
+		public function get abilityList():Vector.<Ability> {
+			return _abilityList;
 		}
 		
 	}
