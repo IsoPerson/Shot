@@ -8,6 +8,8 @@ package vkontakte {
 		private var _lastName:String;
 		private var _gender:uint;//0 - man, 1 - woman
 		private var _avaUrl:String;
+		private var _id:Number;
+		
 		
 		public function VkProfile(xmlProfile:XML) {
 			initFromXML(xmlProfile);
@@ -15,6 +17,7 @@ package vkontakte {
 		
 		public function initFromXML(xmlProfile:XML):void {
 			_firstName = xmlProfile["first_name"];
+			_id = xmlProfile["uid"];
 			_lastName = xmlProfile["last_name"];
 			if (xmlProfile.children().photo_medium) _avaUrl = xmlProfile.children().photo_medium;
 			_gender = xmlProfile["gender"];
@@ -32,7 +35,9 @@ package vkontakte {
 		public function get gender():uint {
 			return _gender;
 		}
-		
+		public function get id():Number {
+			return _id;
+		}
 	}
 
 }

@@ -22,7 +22,7 @@
 				_answer = false;
 			}
 			
-				
+			
 		}
 		
 		public function get answer():Boolean

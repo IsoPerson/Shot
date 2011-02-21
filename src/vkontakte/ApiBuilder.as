@@ -6,7 +6,7 @@ package vkontakte {
 	 * @author Chip
 	 */
 	public class ApiBuilder{
-		private var viewer_id:Number = 55743;
+		static private var viewer_id:Number = 55743;
 		private var api_id:Number = 1917774;
 		private var api_secret:String = "1jTWUT7ern";
 		private var server_url:String = "http://api.vkontakte.ru/api.php";

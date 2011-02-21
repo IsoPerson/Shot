@@ -4,7 +4,7 @@
 	public class GameInfo  implements IServerInfo
 	{
 
-		private var _Name:String;
+		private var _name:String;
 		private var _id:Number;
 		private var _level:int;
 		private var _stake:int;
@@ -26,7 +26,7 @@
 		
 		public function get Name():String
 		{
-			return _Name;
+			return _name;
 		}
 		
 		public function get id():int

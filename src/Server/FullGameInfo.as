@@ -17,7 +17,7 @@
 		private var _players:Array = new Array;
 		
 		
-		public function FullGameInfo(response:XML) 
+		public function FullGameInfo(response:XML) :void
 		{
 			if (Number(response.request_id) > 0)
 			{
@@ -78,7 +78,7 @@
 			//return _type;
 		//}
 		
-		public function set id(i:int)
+		public function set id(i:int):void
 		{
 			_id=i;
 		}
