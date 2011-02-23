@@ -2,9 +2,7 @@ package menu {
 	import Events.BuyEvent;
 	import Events.RoomEvent;
 	
-	import Server.ServerAnswer;
-	import Server.ServerEvent;
-	import Server.ServerFacade;
+	import Server.*;
 	
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -119,6 +117,7 @@ package menu {
 		private function addShopTowerListeners():void {
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
+			RoomsManager.getInstance().getRoom(RoomsManager.BANK_ROOM).addEventListener(BuyEvent.BUY_MONEY, buyMoney);
 		}
 		
 		private function getShopInfo(e:RoomEvent):void{
@@ -144,6 +143,27 @@ package menu {
 			{
 				//RoomsManager.getInstance().onBuyAbility(RoomsManager.SHOP_ROOM);
 				//занести в список способностей и обновить деньги
+			}
+			else
+			{
+				//ошибка покупки
+			}
+		}
+		
+		private function buyMoney(e:BuyEvent):void
+		{
+			_serverFacade.buyMoneyRequest(102841,e.count);
+			_serverFacade.addEventListener(ServerEvent.BUY_MONEY, onBuyMoney);
+		}
+		
+		private function onBuyMoney(e:ServerEvent):void
+		{
+			var info:BuyMoneyInfo = e.data as BuyMoneyInfo;
+			_serverFacade.removeEventListener(ServerEvent.BUY_MONEY, onBuyMoney);
+			if (info.answer)
+			{
+				//info.money
+				//обновить деньги
 			}
 			else
 			{

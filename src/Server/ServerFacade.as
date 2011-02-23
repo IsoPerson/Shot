@@ -40,7 +40,7 @@ package Server {
 			//joinGameRequest(102841,1);
 			//createGameRequest(102841,5,"N",100);
 			//gamesListRequest(102841,5);
-			buyMoneyRequest(102841,1);
+			//buyMoneyRequest(102841,1);
 		}
 		
 		private function addListeners():void {
@@ -173,7 +173,7 @@ package Server {
 		private function onbuyMoney(e:ServerEvent):void
 		{
 			_buyMoney.removeEventListener(ServerEvent.BUY_MONEY,onbuyMoney);
-			dispatchEvent(e); 
+			dispatchEvent(new ServerEvent(ServerEvent.BUY_MONEY,e.data)); 
 		}
 		
 		
