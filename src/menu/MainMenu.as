@@ -1,5 +1,6 @@
 package menu {
 	import Events.BuyEvent;
+	import Events.RoomEvent;
 	
 	import Server.ServerAnswer;
 	import Server.ServerEvent;
@@ -116,21 +117,21 @@ package menu {
 		}
 		
 		private function addShopTowerListeners():void {
-			//_shopToweraddEventListeners
-			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);
+			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
 		}
 		
-		private function getShopInfo(e:Event):void
-		{
-			
-			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).removeEventListener(RoomsManager.GET_SHOP_INFO, getShopInfo);
+		private function getShopInfo(e:RoomEvent):void{
+			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).removeEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
+			_serverFacade.abilityPricesRequest();
+			_serverFacade.addEventListener(ServerEvent.ABILITYPRICES_LOADED, abilityPricesLoadedHandler);
+		}
+		private function abilityPricesLoadedHandler(event:ServerEvent):void {
 			RoomsManager.getInstance().setRoomInfo(_serverFacade.getShopInfo,RoomsManager.SHOP_ROOM);
 		}
 		
 		private function buyAbility(e:BuyEvent):void
-		{			
-			
+		{
 			_serverFacade.buyAbilityRequest(102841,e.count);
 			_serverFacade.addEventListener(ServerEvent.BUY_ABILITY, onBuyAbility);
 		}

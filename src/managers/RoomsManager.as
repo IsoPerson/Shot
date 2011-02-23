@@ -26,7 +26,7 @@ package managers {
 		public static const BANK_ROOM:String = "bank_room";
 		public static const GAME_REQUESTS_ROOM:String = "gameRequests_room";
 		public static const GAME_ROOM:String = "game_room";
-		public static const GET_SHOP_INFO:String = "get_shop_info";
+		//public static const GET_SHOP_INFO:String = "get_shop_info";
 		
 		public function RoomsManager():void {
 			if (_instance) throw new Error("RoomsManager is Singleton");
@@ -90,26 +90,11 @@ package managers {
 			removeFromStage(event.target as MovieClip);
 		}
 		
-		public function setRoomInfo(object:IServerInfo, id:String):void 
-		{
+		public function setRoomInfo(object:IServerInfo, id:String):void {
 			for each (var room:Room in rooms) {
 				if (room.name == id) {room.setInfo(object);}
 			}
 		}
-		
-		private function buyAbility(e:BuyEvent):void
-		{						
-			//trace("2");
-			_instance.dispatchEvent(new BuyEvent(BuyEvent.BUY_ABILITY,(e.count+1)));
-		}
-		
-		//private function onBuyAbility(id:String):void
-		//{			
-		//	for each (var room:Room in rooms) {
-		//		if (room.name == id) {room.buyOk();}
-		//	}
-			
-		//}
-	}
 
+	}
 }

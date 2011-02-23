@@ -1,6 +1,7 @@
 package Controllers {
 	import flash.display.MovieClip;
 	import flash.events.EventDispatcher;
+	import flash.text.TextField;
 	/**
 	 * ...
 	 * @author Chip
@@ -22,6 +23,10 @@ package Controllers {
 		
 		public function getMovieClip(movieClipName:String):MovieClip {
 			return _view.getChildByName(movieClipName) as MovieClip;
+		}
+		
+		public function getTextField(textFieldName:String):TextField {
+			return _view.getChildByName(textFieldName) as TextField;
 		}
 		
 	}

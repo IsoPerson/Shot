@@ -23,11 +23,13 @@ package Server {
 		public function ServerFacade() {
 			super();
 			init();
+			addListeners();
 		}
 
 		public function init():void {
+			_abilityPrices = new ServerAbilityPrices();
 			//serverPrices.init();
-			abilityPricesRequest();
+			//abilityPricesRequest();
 			dayRewardsRequest(102841);
 			
 			//----test---------------
@@ -40,11 +42,18 @@ package Server {
 			//gamesListRequest(102841,5);
 			buyMoneyRequest(102841,1);
 		}
-
-		private function abilityPricesRequest():void {
-			_abilityPrices = new ServerAbilityPrices();
-			//_abilityPrices.addEventListener(ServerEvent.ABILITYPRICES_LOADED, ongetAbilityPrices);						
+		
+		private function addListeners():void {
+			_abilityPrices.addEventListener(ServerEvent.ABILITYPRICES_LOADED, abilityPricesLoadedHandler);
 		}
+
+		public function abilityPricesRequest():void {
+			_abilityPrices.load();
+		}
+		private function abilityPricesLoadedHandler(event:ServerEvent):void {
+			dispatchEvent(new ServerEvent(ServerEvent.ABILITYPRICES_LOADED));
+		}
+		
 		public function get getShopInfo():IServerInfo
 		{
 			return  _abilityPrices.info;
