@@ -1,11 +1,12 @@
 package managers {
-	import flash.display.MovieClip;
-	import gameWindows.IWindow;
-	import gameWindows.Window;
-	
 	import Events.WindowEvent;
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.MovieClip;
+	
+	import gameWindows.IWindow;
+	import gameWindows.Window;
 	/**
 	 * ...
 	 * @author Chip
@@ -47,6 +48,7 @@ package managers {
 			if (_stage) {
 				addToStage(getObjectById(windowName) as MovieClip);
 			}
+			getWindow(windowName).init();
 		}
 		
 		private function getObjectById(id:String):DisplayObject {
@@ -55,7 +57,14 @@ package managers {
 			}
 			return null;
 		}
-
+		
+		public function getWindow(id:String):Window {
+			for each (var window:Window in windows) {
+				if (window.name == id) return window;
+			}
+			return null;
+		}
+		
 		private function addToStage(windowView:MovieClip):void {
 			if (windowView) _stage.addChild(windowView);
 		}

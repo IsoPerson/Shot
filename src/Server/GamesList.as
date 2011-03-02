@@ -9,6 +9,7 @@
 		public function GamesList(data:XML) 
 		{
 			var gameInfo:GameInfo;
+			_games = new Array();
 			
 			for each (var item:XML in data.games.*) 
 			{

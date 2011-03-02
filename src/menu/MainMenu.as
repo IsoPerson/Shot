@@ -1,6 +1,5 @@
 package menu {
-	import Events.BuyEvent;
-	import Events.RoomEvent;
+	import Events.*;
 	
 	import Server.*;
 	
@@ -81,6 +80,7 @@ package menu {
 		
 		private function initPointer():void {
 			_pointer = new MenuPointer(view.pointer);
+			_pointer.addEventListener(WindowEvent.CREATE_GAME, showCreateGame);
 		}
 		
 		private function initShopTowerHidenObjects():void {
@@ -118,7 +118,11 @@ package menu {
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
 			RoomsManager.getInstance().getRoom(RoomsManager.BANK_ROOM).addEventListener(BuyEvent.BUY_MONEY, buyMoney);
+			RoomsManager.getInstance().getRoom(RoomsManager.GAME_REQUESTS_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA, getGameRequestsInfo);
 		}
+		
+		
+		
 		
 		private function getShopInfo(e:RoomEvent):void{
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).removeEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
@@ -170,6 +174,34 @@ package menu {
 				//ошибка покупки
 			}
 		}
+		
+		private function getGameRequestsInfo(e:RoomEvent):void{
+			_serverFacade.gamesListRequest(4);
+			_serverFacade.addEventListener(ServerEvent.GAMES_LOADED, onGamesLoadedHandler);
+		}
+		
+		private function onGamesLoadedHandler(e:ServerEvent):void{
+			_serverFacade.removeEventListener(ServerEvent.GAMES_LOADED, onGamesLoadedHandler);
+			RoomsManager.getInstance().getRoom(RoomsManager.GAME_REQUESTS_ROOM).setInfo(_serverFacade.gameRequestData);			
+			
+		}
+		
+		private function showCreateGame(e:WindowEvent):void{
+			WindowsManager.getInstance().show(WindowsManager.CREATE_GAME_WINDOW);
+			WindowsManager.getInstance().getWindow(WindowsManager.CREATE_GAME_WINDOW).addEventListener(GameEvent.CREATE_GAME, onCreateGame);
+		}
+		
+		private function onCreateGame(e:GameEvent):void{
+			_serverFacade.createGameRequest(102841,e.data["qPlayers"],"F",e.data["stake"]);
+			_serverFacade.addEventListener(ServerEvent.CREATE_GAME, onGameCreated);
+		}
+		
+		private function onGameCreated(e:ServerEvent):void{
+			
+			_serverFacade.removeEventListener(ServerEvent.CREATE_GAME, onGameCreated);
+			
+		}
+		
 	}
 
 }

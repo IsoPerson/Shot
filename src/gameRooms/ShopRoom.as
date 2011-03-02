@@ -51,7 +51,7 @@ package gameRooms {
 		
 		override public function setInfo(obj:IServerInfo):void
 		{
-			_info = (obj as ServerAbilityPricesInfo).prices;;			
+			_info = (obj as ServerAbilityPricesInfo).prices;			
 			showInfo();
 		}
 		
@@ -97,7 +97,7 @@ package gameRooms {
 					_abilityList.addChild(createAbility(i));
 				}
 				view.addChild(_abilityList);
-				view.setChildIndex(_infoMC, view.numChildren - 1);
+				//view.setChildIndex(_infoMC, view.numChildren - 1);
 				if (i / ABILITY_COLUMNS > 4) { setMask(); }
 			}else {
 				//честно говооря так и не понял что тут происходит, поэтому не знал как называть функцию, в которую этот блок убрать))

@@ -19,6 +19,8 @@ package gameWindows {
 		
 		private var _parentStage:DisplayObjectContainer;
 		
+		public function init():void {}
+		
 		public function Window(view:DisplayObject, name:String, priority:uint = 0) {
 			super(view as MovieClip);
 			_name = name;

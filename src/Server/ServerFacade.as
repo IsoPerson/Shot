@@ -100,7 +100,7 @@ package Server {
 		private function onGamesLoaded(e:ServerEvent):void
 		{
 			_games.removeEventListener(ServerEvent.GET_GAME,onGamesLoaded);
-			dispatchEvent(e); 
+			dispatchEvent(new ServerEvent(ServerEvent.GET_GAME)); 
 		}
 		
 		//----------------
@@ -112,7 +112,7 @@ package Server {
 		private function onGamesFinded(e:ServerEvent):void
 		{
 			_gamesFind.removeEventListener(ServerEvent.FIND_GAME,onGamesFinded);
-			dispatchEvent(e); 
+			dispatchEvent(new ServerEvent(ServerEvent.FIND_GAME)); 
 		}
 		
 		//----------------
@@ -124,7 +124,7 @@ package Server {
 		private function onGamesJoined(e:ServerEvent):void
 		{
 			_gamesJoin.removeEventListener(ServerEvent.JOIN_GAME,onGamesJoined);
-			dispatchEvent(e); 
+			dispatchEvent(new ServerEvent(ServerEvent.JOIN_GAME)); 
 		}
 		
 		//----------------
@@ -136,21 +136,30 @@ package Server {
 		private function onGamesCreated(e:ServerEvent):void
 		{
 			_gamesCreate.removeEventListener(ServerEvent.CREATE_GAME,onGamesCreated);
-			dispatchEvent(e); 
+			dispatchEvent(new ServerEvent(ServerEvent.CREATE_GAME)); 
+		}
+		
+		public function getNewGame():IServerInfo
+		{
+			return _gamesCreate.info;
 		}
 		
 		//----------------
-		public function gamesListRequest(user_id:Number, cPlayers:uint):void 
+		public function gamesListRequest(cPlayers:uint):void 
 		{
-			_gamesList = new GameRequests(user_id, cPlayers);
+			_gamesList = new GameRequests(cPlayers);
 			_gamesList.addEventListener(ServerEvent.GAMES_LOADED,onGamesListLoaded);
 		}
 		private function onGamesListLoaded(e:ServerEvent):void
 		{
 			_gamesList.removeEventListener(ServerEvent.GAMES_LOADED,onGamesListLoaded);
-			dispatchEvent(e); 
+			dispatchEvent(new ServerEvent(ServerEvent.GAMES_LOADED)); 
 		}
 		
+		public function get gameRequestData():IServerInfo
+		{
+			return  _gamesList.info;
+		}
 		//----------------
 		public function buyAbilityRequest(user_id:Number, ab_id:Number ):void 
 		{

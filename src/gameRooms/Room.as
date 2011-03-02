@@ -17,7 +17,7 @@ package gameRooms {
 			super(view, id, 10);
 		}
 		
-	 public function init():void {}
+	// public function init():void {}
 	 public function setInfo(obj:IServerInfo):void {}
 	 //public function buyOk(obj:IServerInfo):void {}
 	}
