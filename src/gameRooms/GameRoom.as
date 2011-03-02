@@ -9,6 +9,7 @@ package gameRooms {
 	 */
 	public class GameRoom extends Room{
 		private var _exitBtn:MovieClip;
+		private var _endMoveBtn:MovieClip;
 		
 		public function GameRoom() {
 			super(new GameRoomView(), RoomsManager.GAME_ROOM);
@@ -17,8 +18,16 @@ package gameRooms {
 			addListeners();
 		}
 		
+		public function blockMoveIface():void {
+			_endMoveBtn.visible = false;
+		}
+		public function unblockMoveIface():void {
+			_endMoveBtn.visible = true;
+		}
+		
 		private function initObjects():void {
 			_exitBtn = getMovieClip("exitBtn");
+			_endMoveBtn = getMovieClip("endMoveBtn");
 		}
 		
 		private function setObjectsMode():void {

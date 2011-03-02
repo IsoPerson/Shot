@@ -22,7 +22,7 @@ package inGameRoom.player {
 		public function setBaseInfo(playerBaseInfo:PlayerBaseInfo):void {
 			_baseInfo = playerBaseInfo;
 		}
-		
+
 		public function setGameInfo(playerGameInfo:PlayerGameInfo):void {
 			_gameInfo = playerGameInfo;
 		}
@@ -36,7 +36,11 @@ package inGameRoom.player {
 		}
 		
 		public function addAbility(ability:Ability):void {
-			return _gameInfo.abilityList.length + 1; // TODO: сделать чтобы рельно добавлялась способность в список способностей
+			_gameInfo.abilityList.push(ability);
+		}
+		
+		public function numAbility():int {
+			return _gameInfo.abilityList.length;
 		}
 		
 	}

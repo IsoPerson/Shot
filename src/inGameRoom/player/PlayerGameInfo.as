@@ -1,11 +1,13 @@
 package inGameRoom.player {
 	import abilityes.Ability;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import graphic.AbilityInfoView;
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class PlayerGameInfo {
+	public class PlayerGameInfo extends EventDispatcher{
 		private var _role:uint;
 		private var _radius:uint;
 		private var _isCreator:Boolean;
@@ -13,8 +15,13 @@ package inGameRoom.player {
 		private var _hp:int;
 		
 		private var _abilityList:Vector.<Ability>;
+		[Bindable(event="privateCardsUpdate")]
 		private var _privateCards:Vector.<Card>;
+		[Bindable(event="openCardsUpdate")]
 		private var _openCards:Vector.<Card>;
+		
+		public static const PRIVATE_CARDS_UPDATE:String = "privateCardsUpdate";
+		public static const OPEN_CARDS_UPDATE:String = "openCardsUpdate";
 		
 		public function PlayerGameInfo(role:uint, isCreator:Boolean) {
 			super();
@@ -38,12 +45,14 @@ package inGameRoom.player {
 		public function set hp(value:int):void {
 			_hp = value;
 		}
+		/*
 		public function set privateCards(value:Vector.<Card>):void {
 			_privateCards = value;
 		}
 		public function set openCards(value:Vector.<Card>):void {
 			_openCards = value;
 		}
+		*/
 		public function set abilityList(value:Vector.<Ability>):void {
 			_abilityList = value;
 		}
@@ -71,6 +80,15 @@ package inGameRoom.player {
 		}
 		public function get abilityList():Vector.<Ability> {
 			return _abilityList;
+		}
+		
+		public function addPrivateCard(value:Card):void {
+			_privateCards.push(value);
+			dispatchEvent(new Event(PRIVATE_CARDS_UPDATE));
+		}
+		public function addPublicCard(value:Card):void {
+			_openCards.push(value);
+			dispatchEvent(new Event(OPEN_CARDS_UPDATE));
 		}
 		
 	}

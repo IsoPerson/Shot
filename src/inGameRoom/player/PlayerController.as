@@ -10,11 +10,13 @@ package inGameRoom.player {
 	public class PlayerController extends ViewController{
 		private var _playerInfo:PlayerInfo;
 		private var _details:PlayerDetailsPanel;
+		private var _cardsController:PlayerCardsController;
 		
 		private var coordinates:PlayerCoordinates;
 		
 		public function PlayerController() {
 			super(new MovieClip());
+			_cardsController = new PlayerCardsController(_playerInfo.gameInfo);
 			initObjects();
 		}
 		
@@ -23,7 +25,8 @@ package inGameRoom.player {
 		}
 		
 		public function addAbility(ability:Ability):void {
-			_details.addAbility(new AbilityViewForPlayerDetails(_playerInfo.addAbility(ability)));
+			_playerInfo.addAbility(ability);
+			_details.addAbility(new AbilityViewForPlayerDetails(ability, _playerInfo.numAbility));
 		}
 		
 		private function initObjects():void {

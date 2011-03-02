@@ -1,4 +1,5 @@
 package  {
+	import Server.PlayerInfo;
 	/**
 	 * ...
 	 * @author Chip
@@ -30,6 +31,9 @@ package  {
 			return _type;
 		}
 		
+		public function play(player:PlayerInfo):void {
+			
+		}
 		
 	}
 }
