@@ -2,6 +2,7 @@ package inGameRoom {
 	import inGameRoom.player.PlayerController;
 	import inGameRoom.player.PlayerCoordinates;
 	import inGameRoom.player.PlayerInfo;
+	import cards.Card;
 	/**
 	 * ...
 	 * @author Chip
@@ -17,11 +18,22 @@ package inGameRoom {
 			_players = players;
 		}
 		
-		public function startGame(pack:Vector.<uint>):void {
-			initCards(pack);
+		public function set pack(value:Vector.<Card>):void {
+			_cards = value;
+		}
+		public function get pack():Vector.<Card> {
+			return _cards;
+		}
+		
+		public function startGame():void {
+			initCards();
 			for each (var player:PlayerController in _players) {
 				sendCardsTo(player.playerInfo, BASE_CARDS_COUNT);
 			}
+		}
+		
+		private function initCards():void {
+			//somthing with pack
 		}
 		
 		private function sendCardsTo(player:PlayerInfo, numCards:uint):void {

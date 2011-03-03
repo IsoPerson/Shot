@@ -1,5 +1,6 @@
 package inGameRoom.player {
 	import cards.CardViewController;
+	import flash.events.Event;
 	/**
 	 * ...
 	 * @author Chip
@@ -15,7 +16,11 @@ package inGameRoom.player {
 		}
 		
 		private function addListeners():void {
-			_playerGameInfo.addLiteners;
+			_playerGameInfo.addEventListener(PlayerGameInfo.PRIVATE_CARDS_UPDATE, updatePrivateCardsHandler);
+		}
+		
+		private function updatePrivateCardsHandler(event:Event):void {
+			
 		}
 		
 	}

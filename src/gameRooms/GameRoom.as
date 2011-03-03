@@ -1,5 +1,7 @@
 package gameRooms {
+	import Controllers.GameController;
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import graphic.GameRoomView;
 	import managers.RoomsManager;
@@ -10,6 +12,8 @@ package gameRooms {
 	public class GameRoom extends Room{
 		private var _exitBtn:MovieClip;
 		private var _endMoveBtn:MovieClip;
+		
+		private var gameController:GameController;
 		
 		public function GameRoom() {
 			super(new GameRoomView(), RoomsManager.GAME_ROOM);
@@ -25,6 +29,10 @@ package gameRooms {
 			_endMoveBtn.visible = true;
 		}
 		
+		public function initGameController(gameController:GameController):void {
+			this.gameController = gameController;
+		}
+		
 		private function initObjects():void {
 			_exitBtn = getMovieClip("exitBtn");
 			_endMoveBtn = getMovieClip("endMoveBtn");
@@ -37,8 +45,14 @@ package gameRooms {
 		
 		private function addListeners():void {
 			_exitBtn.addEventListener(MouseEvent.CLICK, closeHandler);
+			view.addEventListener(Event.ADDED_TO_STAGE, addToStageHandler);
+		}
+		
+		private function addToStageHandler(event:Event):void {
+			if (gameController) {
+				gameController.initGame();
+			}
 		}
 		
 	}
-
 }

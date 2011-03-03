@@ -15,7 +15,7 @@ package gameWindows {
 		private const WINDOW_Y:int = 100;
 		
 		public function CreateGameWindow() {
-			super(new Tab_createGame(), WindowsManager.CREATE_GAME_WINDOW, 1);
+			super(new Tab_createGame(), WindowsManager.CREATE_GAME_WINDOW, true, 1);
 			view.x = WINDOW_X;
 			view.y = WINDOW_Y;
 			initObjects();

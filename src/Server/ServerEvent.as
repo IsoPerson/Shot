@@ -17,6 +17,7 @@
 		public static const UPDATE_ACTIV:String = "update activ";
 		public static const GET_GAME:String = "get game";
 		public static const FIND_GAME:String = "find game";
+		public static const GAME_START:String = "gameStart";
 		
 		public var data:IServerInfo;
 		

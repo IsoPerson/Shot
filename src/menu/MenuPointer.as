@@ -43,18 +43,19 @@ package menu {
 			addListenerFor(_arrowTopPlayers);
 		}
 		private function addListenerFor(arrow:MovieClip):void {
-			arrow.addEventListener(Event.ENTER_FRAME, onArrowEnterFrame);
 			arrow.addEventListener(MouseEvent.MOUSE_OVER, onArrowMouseOver);
 		}
 		
 		private function onArrowEnterFrame(event:Event):void {
 			if ((event.target as MovieClip).currentFrame == (event.target as MovieClip).totalFrames) {
 				(event.target as MovieClip).stop();
+				(event.target as MovieClip).removeEventListener(Event.ENTER_FRAME, onArrowEnterFrame);
 			}
 		}
 		
 		private function onArrowMouseOver(event:MouseEvent):void {
 			(event.target as MovieClip).play();
+			(event.target as MovieClip).addEventListener(Event.ENTER_FRAME, onArrowEnterFrame);
 		}
 		
 		private function onArrowMouseOut(event:MouseEvent):void {

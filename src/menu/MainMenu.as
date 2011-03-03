@@ -1,4 +1,6 @@
 package menu {
+	import Controllers.GameController;
+	import Controllers.ViewController;
 	import Events.BuyEvent;
 	import Events.RoomEvent;
 	
@@ -30,8 +32,7 @@ package menu {
 	 * ...
 	 * @author Chip
 	 */
-	public class MainMenu {
-		private var _view:MovieClip;//MainMenuView;
+	public class MainMenu extends ViewController{
 		
 		private var _shopTower:MenuTower;
 		private var _bankTower:MenuTower;
@@ -39,10 +40,13 @@ package menu {
 		private var _pointer:MenuPointer;
 		private var _serverFacade:ServerFacade;
 		
+		private var _shopRoom:ShopRoom = new ShopRoom();
+		private var _gameRoom:GameRoom = new GameRoom();
+		private var _bankRoom:BankRoom = new BankRoom();
 		
 		
-		public function MainMenu(view:MovieClip = null) {
-			_view = new MainMenuView();
+		public function MainMenu() {
+			super(new MainMenuView());
 			_serverFacade = new ServerFacade();
 			addRoomsToManager();
 			addWindowsToManager();
@@ -50,15 +54,11 @@ package menu {
 			addListeners();
 		}
 		
-		public function get view():MovieClip {
-			return _view;
-		}
-		
 		private function addRoomsToManager():void {
-			RoomsManager.getInstance().register(new ShopRoom());
+			RoomsManager.getInstance().register(_shopRoom);
 			RoomsManager.getInstance().register(new GameRequestsRoom());
-			RoomsManager.getInstance().register(new BankRoom());
-			RoomsManager.getInstance().register(new GameRoom());
+			RoomsManager.getInstance().register(_gameRoom);
+			RoomsManager.getInstance().register(_bankRoom);
 			
 		}
 		
@@ -72,15 +72,23 @@ package menu {
 		}
 		
 		private function initTowers():void {
-			_shopTower = new MenuTower(view.shopTower as MovieClip);
+			_shopTower = new MenuTower(getMovieClip("shopTower"));// view.shopTower as MovieClip);
 			initShopTowerHidenObjects();
-			_bankTower = new MenuTower(view.bankTower as MovieClip);
+			_bankTower = new MenuTower(getMovieClip("bankTower"));
 			initBankTowerHidenObjects();
-			_gameTower = new MenuTower(view.gameTower as MovieClip, view.gameTower.doors);
+			_gameTower = new MenuTower(getMovieClip("gameTower"), view.gameTower.doors);
 			initGameTowerHidenObjects();
 			initTowersRoom();
 		}
 		
+		private function initTowersRoom():void {
+			_shopTower.setRoomId(RoomsManager.SHOP_ROOM);
+			_bankTower.setRoomId(RoomsManager.BANK_ROOM);
+			_gameTower.setRoomId(RoomsManager.GAME_ROOM);
+			var gameController:GameController = new GameController(_serverFacade);
+			_gameRoom.initGameController(gameController);
+		}
+				
 		private function initPointer():void {
 			_pointer = new MenuPointer(view.pointer);
 		}
@@ -106,12 +114,6 @@ package menu {
 			_gameTower.addHidenObjects(hidenObjects);
 		}
 		
-		private function initTowersRoom():void {
-			_shopTower.setRoomId(RoomsManager.SHOP_ROOM);
-			_bankTower.setRoomId(RoomsManager.BANK_ROOM);
-			_gameTower.setRoomId(RoomsManager.GAME_REQUESTS_ROOM);
-		}
-				
 		private function addListeners():void {
 			addShopTowerListeners();
 		}

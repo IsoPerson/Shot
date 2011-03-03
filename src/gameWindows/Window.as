@@ -4,7 +4,11 @@ package gameWindows {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
+	
+	import com.greensock.TweenMax;
+	import com.greensock.easing.CustomEase;
 	/**
 	 * ...
 	 * @author Chip
@@ -16,13 +20,19 @@ package gameWindows {
 		private var _name:String;
 		private var _type:uint;
 		private var _priority:uint;
+		private var _animate:Boolean;
 		
 		private var _parentStage:DisplayObjectContainer;
 		
-		public function Window(view:DisplayObject, name:String, priority:uint = 0) {
+		private const SHOW_SPEED:Number = .4;
+		
+		public function Window(view:DisplayObject, name:String, animate:Boolean = true, priority:uint = 0) {
 			super(view as MovieClip);
 			_name = name;
+			_animate = animate;
 			_priority = priority;
+			if (_animate) { createEase(); }
+			addListeners();
 		}
 		
 		public function get name():String {
@@ -41,6 +51,31 @@ package gameWindows {
 			view.dispatchEvent(new WindowEvent(WindowEvent.CLOSE));
 		}
 		
+		private function createEase():void {
+			CustomEase.create("bottomWindEase", [{s:0,cp:0.57299,e:0.828},
+																						{s:0.828,cp:1.083,e:1.02},
+																						{s:1.02,cp:0.957,e:1}]);
+		}
+		
+		private function addListeners():void {
+			if (_animate){
+				view.addEventListener(Event.ADDED_TO_STAGE, addToStageHandler);
+			}
+		}
+		
+		private function addToStageHandler(event:Event):void {
+			animateWindowShow();
+		}
+		
+		private function animateWindowShow():void {
+			var viewX:Number = view.x;
+			var viewY:Number = view.y;
+			view.x += view.width / 2;
+			view.y += view.height / 2;
+			view.scaleX = 0;
+			view.scaleY = 0;
+			TweenMax.to(view, SHOW_SPEED, {scaleX:1, scaleY:1, x:viewX, y:viewY, ease:CustomEase.byName("bottomWindEase")});
+		}
+		
 	}
-
 }

@@ -3,6 +3,7 @@ package inGameRoom.player {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import graphic.AbilityInfoView;
+	import cards.Card;
 	/**
 	 * ...
 	 * @author Chip
@@ -15,9 +16,9 @@ package inGameRoom.player {
 		private var _hp:int;
 		
 		private var _abilityList:Vector.<Ability>;
-		[Bindable(event="privateCardsUpdate")]
+		//[Bindable(event="privateCardsUpdate")]
 		private var _privateCards:Vector.<Card>;
-		[Bindable(event="openCardsUpdate")]
+		//[Bindable(event="openCardsUpdate")]
 		private var _openCards:Vector.<Card>;
 		
 		public static const PRIVATE_CARDS_UPDATE:String = "privateCardsUpdate";

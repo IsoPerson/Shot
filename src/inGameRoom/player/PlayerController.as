@@ -26,11 +26,11 @@ package inGameRoom.player {
 		
 		public function addAbility(ability:Ability):void {
 			_playerInfo.addAbility(ability);
-			_details.addAbility(new AbilityViewForPlayerDetails(ability, _playerInfo.numAbility));
+			_details.addAbility(new AbilityViewForPlayerDetails(ability, _playerInfo.numAbility()));
 		}
 		
 		private function initObjects():void {
-			_details = getMovieClip("detailsPanel");
+			_details = new PlayerDetailsPanel(getMovieClip("detailsPanel"));
 		}
 		
 		

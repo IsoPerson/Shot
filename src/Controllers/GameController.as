@@ -53,7 +53,7 @@ package Controllers {
 		private function addListeners():void {
 			_moveController.addEventListener(MoveEvent.CHANGE_MOVE, changeMoveHandler);
 			_moveController.addEventListener(MoveEvent.END_MY_MOVE, endMyMoveHandler);
-			_moveController.addEventListener(MoveEvent.START_MY_MOVE, StartMyMoveHandler);
+			_moveController.addEventListener(MoveEvent.START_MY_MOVE, startMyMoveHandler);
 		}
 		
 		private function removeListeners():void {

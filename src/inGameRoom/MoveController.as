@@ -7,6 +7,10 @@ package inGameRoom {
 	public class MoveController extends EventDispatcher{
 		
 		public function MoveController() {
+			super();
+		}
+		
+		public function startGame():void {
 			
 		}
 		
