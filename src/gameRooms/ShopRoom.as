@@ -1,15 +1,17 @@
 package gameRooms {
-	import abilityes.AbilityInShop;
-	import Events.WindowEvent;
 	import Events.BuyEvent;
 	import Events.RoomEvent;
-	import flash.text.TextField;
+	import Events.WindowEvent;
+	
 	import Server.IServerInfo;
 	import Server.ServerAbilityPricesInfo;
+	
+	import abilityes.AbilityInShop;
 	
 	import flash.display.*;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.text.TextField;
 	
 	import graphic.AbilityInfoView;
 	import graphic.AbilityView;
@@ -49,7 +51,7 @@ package gameRooms {
 		
 		override public function setInfo(obj:IServerInfo):void
 		{
-			_info = (obj as ServerAbilityPricesInfo).prices;;			
+			_info = (obj as ServerAbilityPricesInfo).prices;			
 			showInfo();
 		}
 		
@@ -64,8 +66,8 @@ package gameRooms {
 			_infoMC.mouseEnabled = false;
 			_infoMC.mouseChildren = false;
 			_infoMC.infoTxt.selectable = false;
-			_infoMC.visible = false;
-			view.addChild(_infoMC);
+			//_infoMC.visible = false;
+			//view.addChild(_infoMC);
 		}
 		
 		private function setObjectsMode():void {
@@ -95,14 +97,14 @@ package gameRooms {
 					_abilityList.addChild(createAbility(i));
 				}
 				view.addChild(_abilityList);
-				view.setChildIndex(_infoMC, view.numChildren - 1);
+				//view.setChildIndex(_infoMC, view.numChildren - 1);
 				if (i / ABILITY_COLUMNS > 4) { setMask(); }
 			}else {
 				//честно говооря так и не понял что тут происходит, поэтому не знал как называть функцию, в которую этот блок убрать))
-				_abilityList.y = 140;
+				_abilityList.y = ABILITY_LIST_Y;
 				if (_lastItem != null) {_lastItem.pushedFilter.visible = false;}
 				_lastItem = null;			
-				_infoMC.visible = false;
+				try {view.removeChild(_infoMC);}catch(e:Error){};
 			}				
 		}
 		
@@ -141,13 +143,13 @@ package gameRooms {
 				_infoMC.infoTxt.text = _info[num].info; 
 				_infoMC.x = _abilityList.x + item.x + 50;
 				_infoMC.y = _abilityList.y + item.y;
-				_infoMC.visible = true;
+				view.addChild(_infoMC);
 			}
 		}
 		
 		private function onOutAbility(e:MouseEvent):void
 		{
-			if (_infoMC) { _infoMC.visible = false; }
+			if (_infoMC) { view.removeChild(_infoMC); }
 		}
 
 		private function buyHandler(event:MouseEvent):void {

@@ -10,9 +10,9 @@
 		private var url_loader:URLLoader;
 		private var _info:GamesList;
 		
-		public function GameRequests(user_id:uint, cPlayers:uint) 
+		public function GameRequests(qPlayers:uint) 
 		{
-			var url_request:URLRequest = new URLRequest(ServerPaths.SERVER_URL+"getPrices.php?user_id="+user_id+"&cPlayers="+cPlayers+"&i="+Math.random());
+			var url_request:URLRequest = new URLRequest(ServerPaths.SERVER_URL+"getRequests.php?qPlayers=" + qPlayers);
 			url_loader = new URLLoader;			
 			url_loader.addEventListener(Event.COMPLETE,onLoaded);	
 			url_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,onError);	

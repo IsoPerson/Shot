@@ -1,8 +1,9 @@
 package menu {
 	import Controllers.ViewController;
+	import Events.WindowEvent;
 	import flash.display.MovieClip;
-	import flash.events.MouseEvent;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	/**
 	 * ...
 	 * @author Chip
@@ -41,6 +42,7 @@ package menu {
 			addListenerFor(_arrowCreateGame);
 			addListenerFor(_arrowFastGame);
 			addListenerFor(_arrowTopPlayers);
+			_arrowCreateGame.addEventListener(MouseEvent.CLICK,createGameHandler);
 		}
 		private function addListenerFor(arrow:MovieClip):void {
 			arrow.addEventListener(MouseEvent.MOUSE_OVER, onArrowMouseOver);
@@ -62,6 +64,10 @@ package menu {
 			(event.target as MovieClip).gotoAndStop(0);
 		}
 		
+		private function createGameHandler(e:MouseEvent):void
+		{
+			dispatchEvent(new WindowEvent(WindowEvent.CREATE_GAME));
+		}
 	}
 
 }

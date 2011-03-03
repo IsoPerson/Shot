@@ -1,12 +1,7 @@
 package menu {
-	import Controllers.GameController;
-	import Controllers.ViewController;
-	import Events.BuyEvent;
-	import Events.RoomEvent;
+	import Events.*;
 	
-	import Server.ServerAnswer;
-	import Server.ServerEvent;
-	import Server.ServerFacade;
+	import Server.*;
 	
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -32,7 +27,8 @@ package menu {
 	 * ...
 	 * @author Chip
 	 */
-	public class MainMenu extends ViewController{
+	public class MainMenu {
+		private var _view:MovieClip;//MainMenuView;
 		
 		private var _shopTower:MenuTower;
 		private var _bankTower:MenuTower;
@@ -40,13 +36,10 @@ package menu {
 		private var _pointer:MenuPointer;
 		private var _serverFacade:ServerFacade;
 		
-		private var _shopRoom:ShopRoom = new ShopRoom();
-		private var _gameRoom:GameRoom = new GameRoom();
-		private var _bankRoom:BankRoom = new BankRoom();
 		
 		
-		public function MainMenu() {
-			super(new MainMenuView());
+		public function MainMenu(view:MovieClip = null) {
+			_view = new MainMenuView();
 			_serverFacade = new ServerFacade();
 			addRoomsToManager();
 			addWindowsToManager();
@@ -54,11 +47,15 @@ package menu {
 			addListeners();
 		}
 		
+		public function get view():MovieClip {
+			return _view;
+		}
+		
 		private function addRoomsToManager():void {
-			RoomsManager.getInstance().register(_shopRoom);
+			RoomsManager.getInstance().register(new ShopRoom());
 			RoomsManager.getInstance().register(new GameRequestsRoom());
-			RoomsManager.getInstance().register(_gameRoom);
-			RoomsManager.getInstance().register(_bankRoom);
+			RoomsManager.getInstance().register(new BankRoom());
+			RoomsManager.getInstance().register(new GameRoom());
 			
 		}
 		
@@ -72,25 +69,18 @@ package menu {
 		}
 		
 		private function initTowers():void {
-			_shopTower = new MenuTower(getMovieClip("shopTower"));// view.shopTower as MovieClip);
+			_shopTower = new MenuTower(view.shopTower as MovieClip);
 			initShopTowerHidenObjects();
-			_bankTower = new MenuTower(getMovieClip("bankTower"));
+			_bankTower = new MenuTower(view.bankTower as MovieClip);
 			initBankTowerHidenObjects();
-			_gameTower = new MenuTower(getMovieClip("gameTower"), view.gameTower.doors);
+			_gameTower = new MenuTower(view.gameTower as MovieClip, view.gameTower.doors);
 			initGameTowerHidenObjects();
 			initTowersRoom();
 		}
 		
-		private function initTowersRoom():void {
-			_shopTower.setRoomId(RoomsManager.SHOP_ROOM);
-			_bankTower.setRoomId(RoomsManager.BANK_ROOM);
-			_gameTower.setRoomId(RoomsManager.GAME_ROOM);
-			var gameController:GameController = new GameController(_serverFacade);
-			_gameRoom.initGameController(gameController);
-		}
-				
 		private function initPointer():void {
 			_pointer = new MenuPointer(view.pointer);
+			_pointer.addEventListener(WindowEvent.CREATE_GAME, showCreateGame);
 		}
 		
 		private function initShopTowerHidenObjects():void {
@@ -114,6 +104,12 @@ package menu {
 			_gameTower.addHidenObjects(hidenObjects);
 		}
 		
+		private function initTowersRoom():void {
+			_shopTower.setRoomId(RoomsManager.SHOP_ROOM);
+			_bankTower.setRoomId(RoomsManager.BANK_ROOM);
+			_gameTower.setRoomId(RoomsManager.GAME_REQUESTS_ROOM);
+		}
+				
 		private function addListeners():void {
 			addShopTowerListeners();
 		}
@@ -121,7 +117,12 @@ package menu {
 		private function addShopTowerListeners():void {
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
+			RoomsManager.getInstance().getRoom(RoomsManager.BANK_ROOM).addEventListener(BuyEvent.BUY_MONEY, buyMoney);
+			RoomsManager.getInstance().getRoom(RoomsManager.GAME_REQUESTS_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA, getGameRequestsInfo);
 		}
+		
+		
+		
 		
 		private function getShopInfo(e:RoomEvent):void{
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).removeEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
@@ -152,6 +153,55 @@ package menu {
 				//ошибка покупки
 			}
 		}
+		
+		private function buyMoney(e:BuyEvent):void
+		{
+			_serverFacade.buyMoneyRequest(102841,e.count);
+			_serverFacade.addEventListener(ServerEvent.BUY_MONEY, onBuyMoney);
+		}
+		
+		private function onBuyMoney(e:ServerEvent):void
+		{
+			var info:BuyMoneyInfo = e.data as BuyMoneyInfo;
+			_serverFacade.removeEventListener(ServerEvent.BUY_MONEY, onBuyMoney);
+			if (info.answer)
+			{
+				//info.money
+				//обновить деньги
+			}
+			else
+			{
+				//ошибка покупки
+			}
+		}
+		
+		private function getGameRequestsInfo(e:RoomEvent):void{
+			_serverFacade.gamesListRequest(4);
+			_serverFacade.addEventListener(ServerEvent.GAMES_LOADED, onGamesLoadedHandler);
+		}
+		
+		private function onGamesLoadedHandler(e:ServerEvent):void{
+			_serverFacade.removeEventListener(ServerEvent.GAMES_LOADED, onGamesLoadedHandler);
+			RoomsManager.getInstance().getRoom(RoomsManager.GAME_REQUESTS_ROOM).setInfo(_serverFacade.gameRequestData);			
+			
+		}
+		
+		private function showCreateGame(e:WindowEvent):void{
+			WindowsManager.getInstance().show(WindowsManager.CREATE_GAME_WINDOW);
+			WindowsManager.getInstance().getWindow(WindowsManager.CREATE_GAME_WINDOW).addEventListener(GameEvent.CREATE_GAME, onCreateGame);
+		}
+		
+		private function onCreateGame(e:GameEvent):void{
+			_serverFacade.createGameRequest(102841,e.data["qPlayers"],"F",e.data["stake"]);
+			_serverFacade.addEventListener(ServerEvent.CREATE_GAME, onGameCreated);
+		}
+		
+		private function onGameCreated(e:ServerEvent):void{
+			
+			_serverFacade.removeEventListener(ServerEvent.CREATE_GAME, onGameCreated);
+			
+		}
+		
 	}
 
 }
