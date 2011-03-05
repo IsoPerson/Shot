@@ -1,17 +1,16 @@
 package menu.menuPointer {
-	import Controllers.ViewController;
-	import flash.events.Event;
-	import managers.WindowsManager;
-	
+	import cards.CardViewController;
+	import managers.RoomsManager;
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
+	
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class ArrowCreateGame extends MenuPointerArrow{
+	public class ArrowFastGame extends MenuPointerArrow{
 		
-		public function ArrowCreateGame(view:MovieClip) {
+		public function ArrowFastGame(view:MovieClip) {
 			super(view);
 			addListeners();
 		}
@@ -22,8 +21,8 @@ package menu.menuPointer {
 		}
 		
 		private function onClick(event:MouseEvent):void {
-			WindowsManager.getInstance().show(WindowsManager.CREATE_GAME_WINDOW);
+			RoomsManager.getInstance().show(RoomsManager.GAME_ROOM);
 		}
-		
+
 	}
 }

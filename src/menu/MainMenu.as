@@ -1,6 +1,7 @@
 package menu {
 	import Controllers.ViewController;
 	import Events.*;
+	import ifaceBaseComponents.BaseTextBtn;
 	import menu.menuTowers.BankTower;
 	import menu.menuTowers.GameRequestsTower;
 	import menu.menuTowers.ShopTower;
@@ -25,7 +26,7 @@ package menu {
 	import managers.RoomsManager;
 	import managers.WindowsManager;
 	
-	import menu.MenuPointer;
+	import menu.menuPointer.MenuPointer;
 
 	/**
 	 * ...
@@ -39,7 +40,7 @@ package menu {
 		private var _pointer:MenuPointer;
 		private var _serverFacade:ServerFacade;
 		
-		
+		private var _rulesBtn:BaseTextBtn;
 		
 		public function MainMenu(view:MovieClip = null) {
 			super(new MainMenuView());
@@ -65,6 +66,7 @@ package menu {
 		private function initObjects():void {
 			initTowers();
 			initPointer();
+			_rulesBtn = new BaseTextBtn(getMovieClip("rulesBtn"), "Правила");
 		}
 		
 		private function initTowers():void {

@@ -13,8 +13,8 @@ package gameRooms {
 	 */
 	public class Room extends Window{
 		
-		public function Room(view:MovieClip, id:String ) {
-			super(view, id, true, 10);
+		public function Room(view:MovieClip, id:String, animate:Boolean = true ) {
+			super(view, id, animate, 10);
 		}
 		
 	// public function init():void {}

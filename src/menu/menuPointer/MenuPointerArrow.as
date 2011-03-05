@@ -18,20 +18,20 @@ package menu.menuPointer {
 		
 		private function setMode():void {
 			if (_view){
-				_view.gotoAndStop(0);
-				_view.mouseChildren = false;
-				_view.buttonMode = true;
+				view.gotoAndStop(0);
+				view.mouseChildren = false;
+				view.buttonMode = true;
 			}
 		}
 		
-		private function addListeners():void {
+		protected function addListeners():void {
 			_view.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 		}
 
 		private function onEnterFrame(event:Event):void {
-			if ((event.target as MovieClip).currentFrame == (event.target as MovieClip).totalFrames) {
-				(event.target as MovieClip).stop();
-				_view.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+			if (view.currentFrame == view.totalFrames) {
+				view.stop();
+				view.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 				_playing = false;
 			}
 		}
@@ -39,8 +39,8 @@ package menu.menuPointer {
 		private function onMouseOver(event:MouseEvent):void {
 			if (!_playing){
 				_playing = true;
-				(event.target as MovieClip).play();
-				_view.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+				view.play();
+				view.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
 		}
 		
