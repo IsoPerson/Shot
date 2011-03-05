@@ -61,7 +61,7 @@ package gameWindows {
 		}
 		
 		public function closeHandler(event:MouseEvent = null):void {
-			view.dispatchEvent(new WindowEvent(WindowEvent.CLOSE));
+			dispatchEvent(new WindowEvent(WindowEvent.CLOSE, this));
 		}
 		
 		private function createEase():void {

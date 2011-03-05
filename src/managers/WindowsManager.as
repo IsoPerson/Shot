@@ -1,5 +1,7 @@
 package managers {
 	import Events.WindowEvent;
+	import gameWindows.WindowShadow;
+	import graphic.WindowClouds;
 	import Server.IServerInfo;
 	
 	import flash.display.DisplayObject;
@@ -20,6 +22,8 @@ package managers {
 		private var _stage:DisplayObjectContainer;
 		private var defaultStage:DisplayObjectContainer;
 		
+		private var shadow:WindowShadow;
+		
 		public static const CREATE_GAME_WINDOW:String = "createGameWindow";
 		
 		public static const MAIN_MENU_ROOM:String = "mainMenu_room";
@@ -30,6 +34,7 @@ package managers {
 		
 		public function WindowsManager() {
 			if (_instance) throw new Error("WindowsManager is Singleton");
+			shadow = new WindowShadow();
 		}
 		
 		public static function getInstance():WindowsManager {
@@ -48,14 +53,14 @@ package managers {
 				if (windowExists(wind)) return;
 			}
 			windows.push(wind);
-			wind.view.addEventListener(WindowEvent.CLOSE, closeWindowHandler);
+			wind.addEventListener(WindowEvent.CLOSE, closeWindowHandler);
 		}
 		
 		public function show(windowName:String):void {
 			if (_stage) {
-				addToStage(getElement(windowName).view);
+				addToStage(getElement(windowName));
+				getElement(windowName).init();
 			}
-			getElement(windowName).init();
 		}
 		
 		public function getElement(id:String):Window {
@@ -71,11 +76,30 @@ package managers {
 			}
 		}
 		
-		private function addToStage(windowView:MovieClip):void {
-			if (windowView) _stage.addChild(windowView);
+		private function addToStage(window:Window):void {
+			if (window) {
+				addShadow(window);
+				_stage.addChild(window.view);
+			}
 		}
-		private function removeFromStage(windowView:MovieClip):void {
-			if (windowView) _stage.removeChild(windowView);
+		private function removeFromStage(window:Window):void {
+			if (window) {
+				removeShadow(window);
+				_stage.removeChild(window.view);
+			}
+		}
+		
+		private function addShadow(window:Window):void {
+			if (window.type == Window.NORMAL) {
+				_stage.addChild(shadow.view);
+			}
+		}
+		private function removeShadow(window:Window):void {
+			if (window.type == Window.NORMAL) {
+				if (_stage.contains(shadow.view)) {
+					_stage.removeChild(shadow.view);
+				}
+			}
 		}
 
 		private function showWindowByName(windowName:String):void {
@@ -93,7 +117,7 @@ package managers {
 		}
 		
 		private function closeWindowHandler(event:WindowEvent):void {
-			removeFromStage(event.target as MovieClip);
+			removeFromStage(event.window);
 		}
 		
 		private function windowExists(wind:Window):Boolean {

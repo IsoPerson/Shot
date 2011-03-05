@@ -76,12 +76,8 @@ package gameRooms {
 		}
 		
 		private function addListeners():void {
-			_exitBtn.view.addEventListener(MouseEvent.CLICK, exitHandler);
+			_exitBtn.view.addEventListener(MouseEvent.CLICK, closeHandler);
 			_buyBtn.view.addEventListener(MouseEvent.CLICK, buyHandler);
-		}
-		
-		private function exitHandler(event:MouseEvent):void {
-			view.dispatchEvent(new WindowEvent(WindowEvent.CLOSE));
 		}
 		
 		private function showInfo():void
