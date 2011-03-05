@@ -1,6 +1,5 @@
 package menu.menuPointer {
 	import cards.CardViewController;
-	import managers.RoomsManager;
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	
@@ -21,7 +20,6 @@ package menu.menuPointer {
 		}
 		
 		private function onClick(event:MouseEvent):void {
-			RoomsManager.getInstance().show(RoomsManager.GAME_ROOM);
 		}
 
 	}

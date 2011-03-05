@@ -42,7 +42,7 @@ package gameWindows {
 		private const DEFAULT_STAKE:int = 100;
 		
 		public function CreateGameWindow() {
-			super(new Tab_createGame(), WindowsManager.CREATE_GAME_WINDOW, true, 1);
+			super(new Tab_createGame(), WindowsManager.CREATE_GAME_WINDOW, NORMAL, 1);
 			view.x = WINDOW_X;
 			view.y = WINDOW_Y;
 			initObjects();
@@ -122,14 +122,18 @@ package gameWindows {
 			_onlyVip.alpha = _cur_state_vip;
 		}
 		
-		private function startHandler(e:MouseEvent):void{
+		private function startHandler(e:MouseEvent):void {
+			if (true) { startGame(); }
+		}
+		
+		private function startGame():void {
 			var data:Array = new Array();
 			data["qPlayers"] = _cur_Players;
 			data["stake"] = _cur_stake;
 			data["onlyFriends"] = _cur_state_friends == 0.01 ? false : true;
 			data["onlyVip"] = _cur_state_vip == 0.01 ? false : true; 
 			dispatchEvent(new GameEvent(GameEvent.CREATE_GAME, data));
+			closeHandler();
 		}
 	}
-
 }

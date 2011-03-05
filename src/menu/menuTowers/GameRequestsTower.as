@@ -1,5 +1,5 @@
 package menu.menuTowers {
-	import managers.RoomsManager;
+	import managers.WindowsManager;
 	import flash.display.MovieClip;
 	/**
 	 * ...
@@ -11,7 +11,7 @@ package menu.menuTowers {
 			super(view);
 			animationView = getMovieClip("doors");
 			initHidenObjects();
-			setRoomId(RoomsManager.GAME_REQUESTS_ROOM);
+			setRoomId(WindowsManager.GAME_REQUESTS_ROOM);
 		}
 		
 		private function initHidenObjects():void {

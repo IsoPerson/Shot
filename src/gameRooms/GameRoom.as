@@ -3,25 +3,24 @@ package gameRooms {
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import gameWindows.Window;
 	import graphic.GameRoomView;
 	import ifaceBaseComponents.BaseBtn;
 	import ifaceBaseComponents.BaseTextBtn;
-	import managers.RoomsManager;
+	import managers.WindowsManager;
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class GameRoom extends Room{
+	public class GameRoom extends Window{
 		private var _exitBtn:BaseBtn;
 		private var _endMoveBtn:BaseTextBtn;
 		private var _shopBtn:BaseTextBtn;
 		private var _undoBtn:BaseTextBtn;
 		private var _dropCardBtn:BaseTextBtn;
 		
-		private var gameController:GameController;
-		
 		public function GameRoom() {
-			super(new GameRoomView(), RoomsManager.GAME_ROOM, false);
+			super(new GameRoomView(), WindowsManager.GAME_ROOM, 1);
 			initObjects();
 			setObjectsMode();
 			addListeners();
@@ -32,10 +31,6 @@ package gameRooms {
 		}
 		public function unblockMoveIface():void {
 			_endMoveBtn.view.visible = true;
-		}
-		
-		public function initGameController(gameController:GameController):void {
-			this.gameController = gameController;
 		}
 		
 		private function initObjects():void {
@@ -58,13 +53,10 @@ package gameRooms {
 		}
 		
 		private function addToStageHandler(event:Event):void {
-			if (gameController) {
-				gameController.initGame();
-			}
 		}
 		
 		private function shopBtnClickHandler(event:MouseEvent):void {
-			RoomsManager.getInstance().show(RoomsManager.SHOP_ROOM);
+			WindowsManager.getInstance().show(WindowsManager.SHOP_ROOM);
 		}
 		
 	}

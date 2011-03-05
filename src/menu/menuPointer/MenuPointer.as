@@ -1,7 +1,6 @@
 package menu.menuPointer {
 	import Controllers.ViewController;
 	import managers.WindowsManager;
-	import managers.RoomsManager;
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	/**

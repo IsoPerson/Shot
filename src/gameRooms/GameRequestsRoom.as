@@ -1,5 +1,6 @@
 package gameRooms {
 	import Events.RoomEvent;
+	import gameWindows.Window;
 	import ifaceBaseComponents.BaseBtn;
 	
 	import Server.GameInfo;
@@ -12,12 +13,12 @@ package gameRooms {
 	
 	import graphic.gameRooms.GameRequestsRoomView;
 	
-	import managers.RoomsManager;
+	import managers.WindowsManager;
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class GameRequestsRoom extends Room {
+	public class GameRequestsRoom extends Window {
 		private var _exitBtn:BaseBtn;
 		private var _selectBox:MovieClip;
 		private var _info:Array = null;
@@ -28,7 +29,7 @@ package gameRooms {
 		
 		
 		public function GameRequestsRoom() {	
-			super(new GameRequestsRoomView(), RoomsManager.GAME_REQUESTS_ROOM);
+			super(new GameRequestsRoomView(), WindowsManager.GAME_REQUESTS_ROOM);
 			initObjects();
 			setObjectsMode();
 			addListeners();
@@ -53,7 +54,7 @@ package gameRooms {
 		}
 		
 		override public function setInfo(obj:IServerInfo):void{
-			_info = (obj as GamesList).games;	
+			_info = (obj as GamesList).games;
 			showInfo();			
 		}
 		

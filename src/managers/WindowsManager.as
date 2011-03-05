@@ -1,5 +1,6 @@
 package managers {
 	import Events.WindowEvent;
+	import Server.IServerInfo;
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -20,6 +21,12 @@ package managers {
 		private var defaultStage:DisplayObjectContainer;
 		
 		public static const CREATE_GAME_WINDOW:String = "createGameWindow";
+		
+		public static const MAIN_MENU_ROOM:String = "mainMenu_room";
+		public static const SHOP_ROOM:String = "shop_room";
+		public static const BANK_ROOM:String = "bank_room";
+		public static const GAME_REQUESTS_ROOM:String = "gameRequests_room";
+		public static const GAME_ROOM:String = "game_room";
 		
 		public function WindowsManager() {
 			if (_instance) throw new Error("WindowsManager is Singleton");
@@ -46,23 +53,22 @@ package managers {
 		
 		public function show(windowName:String):void {
 			if (_stage) {
-				addToStage(getWindow(windowName).view);
+				addToStage(getElement(windowName).view);
 			}
-			getWindow(windowName).init();
+			getElement(windowName).init();
 		}
 		
-		private function getObjectById(id:String):DisplayObject {
-			for each (var window:Window in windows) {
-				if (window.name == id) return window.view;
-			}
-			return null;
-		}
-		
-		public function getWindow(id:String):Window {
+		public function getElement(id:String):Window {
 			for each (var window:Window in windows) {
 				if (window.name == id) return window;
 			}
 			return null;
+		}
+		
+		public function setElementInfo(object:IServerInfo, id:String):void {
+			for each (var window:Window in windows) {
+				if (window.name == id) {window.setInfo(object);}
+			}
 		}
 		
 		private function addToStage(windowView:MovieClip):void {

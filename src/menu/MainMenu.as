@@ -1,4 +1,5 @@
 package menu {
+	import Controllers.GameController;
 	import Controllers.ViewController;
 	import Events.*;
 	import ifaceBaseComponents.BaseTextBtn;
@@ -23,7 +24,6 @@ package menu {
 	import graphic.Tab_createGame;
 	import graphic.gameRooms.ShopRoomView;
 	
-	import managers.RoomsManager;
 	import managers.WindowsManager;
 	
 	import menu.menuPointer.MenuPointer;
@@ -42,24 +42,22 @@ package menu {
 		
 		private var _rulesBtn:BaseTextBtn;
 		
+		private var gameController:GameController;
+		
 		public function MainMenu(view:MovieClip = null) {
 			super(new MainMenuView());
 			_serverFacade = new ServerFacade();
-			addRoomsToManager();
 			addWindowsToManager();
 			initObjects();
 			addListeners();
 		}
 		
-		private function addRoomsToManager():void {
-			RoomsManager.getInstance().register(new ShopRoom());
-			RoomsManager.getInstance().register(new GameRequestsRoom());
-			RoomsManager.getInstance().register(new BankRoom());
-			RoomsManager.getInstance().register(new GameRoom());
-			
-		}
-		
 		private function addWindowsToManager():void {
+			WindowsManager.getInstance().register(new ShopRoom());
+			WindowsManager.getInstance().register(new GameRequestsRoom());
+			WindowsManager.getInstance().register(new BankRoom());
+			WindowsManager.getInstance().register(new GameRoom());
+			
 			WindowsManager.getInstance().register(new CreateGameWindow());
 		}
 		
@@ -81,23 +79,31 @@ package menu {
 		
 		private function addListeners():void {
 			addRoomsListeners();
+			addWindowsListeners();
 		}
 		
 		private function addRoomsListeners():void {
-			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
-			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
-			RoomsManager.getInstance().getRoom(RoomsManager.BANK_ROOM).addEventListener(BuyEvent.BUY_MONEY, buyMoney);
-			RoomsManager.getInstance().getRoom(RoomsManager.GAME_REQUESTS_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA,
+			WindowsManager.getInstance().getElement(WindowsManager.SHOP_ROOM).
+																								addEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
+			WindowsManager.getInstance().getElement(WindowsManager.SHOP_ROOM).addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
+			WindowsManager.getInstance().getElement(WindowsManager.BANK_ROOM).addEventListener(BuyEvent.BUY_MONEY, buyMoney);
+			WindowsManager.getInstance().getElement(WindowsManager.GAME_REQUESTS_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA,
 																					getGameRequestsInfo);
 		}
 		
+		private function addWindowsListeners():void {
+			WindowsManager.getInstance().getElement(WindowsManager.CREATE_GAME_WINDOW).addEventListener(
+													GameEvent.CREATE_GAME, onCreateGame);
+		}
+		
 		private function getShopInfo(e:RoomEvent):void{
-			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).removeEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
+			WindowsManager.getInstance().getElement(WindowsManager.SHOP_ROOM).
+														removeEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
 			_serverFacade.abilityPricesRequest();
 			_serverFacade.addEventListener(ServerEvent.ABILITYPRICES_LOADED, abilityPricesLoadedHandler);
 		}
 		private function abilityPricesLoadedHandler(event:ServerEvent):void {
-			RoomsManager.getInstance().setRoomInfo(_serverFacade.getShopInfo,RoomsManager.SHOP_ROOM);
+			WindowsManager.getInstance().setElementInfo(_serverFacade.getShopInfo,WindowsManager.SHOP_ROOM);
 		}
 		
 		private function buyAbility(e:BuyEvent):void
@@ -149,7 +155,7 @@ package menu {
 		
 		private function onGamesLoadedHandler(e:ServerEvent):void{
 			_serverFacade.removeEventListener(ServerEvent.GAMES_LOADED, onGamesLoadedHandler);
-			RoomsManager.getInstance().getRoom(RoomsManager.GAME_REQUESTS_ROOM).setInfo(_serverFacade.gameRequestData);			
+			WindowsManager.getInstance()..setElementInfo(_serverFacade.gameRequestData, WindowsManager.GAME_REQUESTS_ROOM);
 			
 		}
 		
@@ -160,8 +166,9 @@ package menu {
 		
 		private function onGameCreated(e:ServerEvent):void{
 			_serverFacade.removeEventListener(ServerEvent.CREATE_GAME, onGameCreated);
+			gameController = new GameController(_serverFacade);
+			gameController.initGame();
 		}
 		
 	}
-
 }

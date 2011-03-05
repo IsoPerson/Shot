@@ -2,6 +2,7 @@ package gameRooms {
 	import Events.BuyEvent;
 	import Events.RoomEvent;
 	import Events.WindowEvent;
+	import gameWindows.Window;
 	import ifaceBaseComponents.BaseBtn;
 	import ifaceBaseComponents.BaseTextBtn;
 	
@@ -19,13 +20,13 @@ package gameRooms {
 	import graphic.AbilityView;
 	import graphic.gameRooms.ShopRoomView;
 	
-	import managers.RoomsManager;
+	import managers.WindowsManager;
 
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class ShopRoom extends Room {
+	public class ShopRoom extends Window {
 		private var _exitBtn:BaseBtn;
 		private var _buyBtn:BaseTextBtn;
 		private var _info:Array = null;
@@ -38,17 +39,16 @@ package gameRooms {
 		private const ABILITY_LIST_Y:int = 140;
 		
 		public function ShopRoom() {
-			super(new ShopRoomView(), RoomsManager.SHOP_ROOM);
+			super(new ShopRoomView(), WindowsManager.SHOP_ROOM);
 			initObjects();
 			setObjectsMode();
 			addListeners();
+			dispatchEvent(new RoomEvent(RoomEvent.WANT_SERVER_DATA));
 		}
 		
 		override public function init():void
 		{			
-			if (_info == null)	{dispatchEvent(new RoomEvent(RoomEvent.WANT_SERVER_DATA));}
-			else {showInfo();}
-				
+			if (_info) { showInfo(); }
 		}
 		
 		override public function setInfo(obj:IServerInfo):void

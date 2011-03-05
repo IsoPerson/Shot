@@ -1,6 +1,6 @@
 package menu.menuTowers {
 	import Controllers.ViewController;
-	import managers.RoomsManager;
+	import managers.WindowsManager;
 	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
@@ -76,7 +76,7 @@ package menu.menuTowers {
 		}
 		
 		private function openRoom(event:MouseEvent = null):void {
-			RoomsManager.getInstance().show(_roomId);
+			WindowsManager.getInstance().show(_roomId);
 		}
 		
 	}

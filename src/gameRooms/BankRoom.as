@@ -3,17 +3,18 @@ package gameRooms {
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	import Events.BuyEvent;
+	import gameWindows.Window;
 	import graphic.BankRoomView;
 	import ifaceBaseComponents.BaseBtn;
 	import ifaceBaseComponents.BaseTextBtn;
 	
-	import managers.RoomsManager;
+	import managers.WindowsManager;
 
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class BankRoom extends Room {
+	public class BankRoom extends Window {
 		private var _exitBtn:BaseBtn;
 		private var _incBtn:BaseBtn;
 		private var _decBtn:BaseBtn;
@@ -30,7 +31,7 @@ package gameRooms {
 		
 		
 		public function BankRoom() {
-			super(new BankRoomView(), RoomsManager.BANK_ROOM);
+			super(new BankRoomView(), WindowsManager.BANK_ROOM);
 			_view.x = BANK_X;
 			_view.y = BANK_Y;
 			initObjects();

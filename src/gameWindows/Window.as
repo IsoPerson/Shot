@@ -6,6 +6,8 @@ package gameWindows {
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import graphic.WindowClouds;
+	import Server.IServerInfo;
 	
 	import com.greensock.TweenMax;
 	import com.greensock.easing.CustomEase;
@@ -20,18 +22,22 @@ package gameWindows {
 		private var _name:String;
 		private var _type:uint;
 		private var _priority:uint;
-		private var _animate:Boolean;
-		
+
 		private var _parentStage:DisplayObjectContainer;
 		
 		private const SHOW_SPEED:Number = .4;
 		
-		public function Window(view:DisplayObject, name:String, animate:Boolean = true, priority:uint = 0) {
+		public static const NORMAL:uint = 0;
+		public static const FULL_SCREEN:uint = 1;
+		
+		public function Window(view:DisplayObject, name:String, windowType:uint = 0, priority:uint = 0) {
 			super(view as MovieClip);
 			_name = name;
-			_animate = animate;
+			_type = windowType;
 			_priority = priority;
-			if (_animate) { createEase(); }
+			if (windowType == NORMAL) {
+				createEase();
+			}
 			addListeners();
 		}
 		
@@ -39,13 +45,16 @@ package gameWindows {
 			return _name;
 		}
 		
+		public function get type():uint {
+			return _type;
+		}
+		
 		public function get priority():uint {
 			return _priority;
 		}
 		
-		public function init():void {
-			
-		}
+		public function init():void {}
+		public function setInfo(object:IServerInfo):void{}
 		
 		public function show():void {
 			if (view) _parentStage.addChild(view);
@@ -62,7 +71,7 @@ package gameWindows {
 		}
 		
 		private function addListeners():void {
-			if (_animate){
+			if (_type == NORMAL){
 				view.addEventListener(Event.ADDED_TO_STAGE, addToStageHandler);
 			}
 		}

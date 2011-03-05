@@ -1,5 +1,5 @@
 package menu.menuTowers {
-	import managers.RoomsManager;
+	import managers.WindowsManager;
 	import flash.display.MovieClip;
 	/**
 	 * ...
@@ -10,7 +10,7 @@ package menu.menuTowers {
 		public function ShopTower(view:MovieClip) {
 			super(view);
 			initHidenObjects();
-			setRoomId(RoomsManager.SHOP_ROOM);
+			setRoomId(WindowsManager.SHOP_ROOM);
 		}
 		
 		private function initHidenObjects():void {

@@ -1,10 +1,12 @@
 package Controllers {
 	import Events.MoveEvent;
+	import gameRooms.BankRoom;
 	import gameRooms.GameRoom;
 	import inGameRoom.MoveController;
 	import inGameRoom.PackController;
 	import inGameRoom.player.PlayerController;
-	import managers.RoomsManager;
+	import managers.WindowsManager;
+	import Server.IServerInfo;
 	import Server.ServerFacade;
 	import Server.ServerEvent;
 	/**
@@ -25,13 +27,14 @@ package Controllers {
 		public function GameController(serverFacade:ServerFacade) {
 			super();
 			this.serverFacade = serverFacade;
+			_gameRoom = WindowsManager.getInstance().getElement(WindowsManager.GAME_ROOM)
+										as GameRoom;
 		}
 		
 		public function initGame():void {
-			_gameRoom = new GameRoom();
 			_moveController = new MoveController();
 			_packController = new PackController(_players);
-			RoomsManager.getInstance().show(RoomsManager.GAME_ROOM);
+			WindowsManager.getInstance().show(WindowsManager.GAME_ROOM);
 			//sendServerEvents();
 			addServerListeners();
 		}
@@ -48,6 +51,7 @@ package Controllers {
 		
 		private function addServerListeners():void {
 			serverFacade.addEventListener(ServerEvent.GAME_START, startGameHandler);
+			serverFacade.addEventListener(ServerEvent.GAME_INFO_UPDATE, gameInfoUpdate);
 		}
 		
 		private function addListeners():void {
@@ -72,6 +76,9 @@ package Controllers {
 		}
 		
 		//server handlers
+		private function gameInfoUpdate(event:ServerEvent):void {
+			
+		}
 		private function startGameHandler(event:ServerEvent):void {
 			startGame();
 		}
