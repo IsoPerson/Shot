@@ -19,6 +19,7 @@
 		public static const FIND_GAME:String = "find game";
 		public static const GAME_START:String = "gameStart";
 		public static const GAME_INFO_UPDATE:String = "gameInfoUpdate";
+		public static const GAME_INFO_UPDATE_LOADED:String = "gameInfoUpdateLoaded";
 		
 		public var data:IServerInfo;
 		

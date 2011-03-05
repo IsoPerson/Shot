@@ -12,7 +12,6 @@ package inGameRoom.player {
 		public function PlayerCardsController(playerGameInfo:PlayerGameInfo) {
 			super();
 			_playerGameInfo = playerGameInfo;
-			addListeners();
 		}
 		
 		private function addListeners():void {

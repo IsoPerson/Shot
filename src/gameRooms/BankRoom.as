@@ -22,8 +22,8 @@ package gameRooms {
 		private var _moneyTxt:TextField;
 		private var _votesTxt:TextField;
 		
-		private const BANK_X:int = 400;
-		private const BANK_Y:int = 300;
+		private const CENTER_X:int = 400;
+		private const CENTER_Y:int = 300;
 		private const GOLD_COUNT:int = 100;
 		private const VOTES_COUNT:int = 1;
 		
@@ -32,8 +32,8 @@ package gameRooms {
 		
 		public function BankRoom() {
 			super(new BankRoomView(), WindowsManager.BANK_ROOM);
-			_view.x = BANK_X;
-			_view.y = BANK_Y;
+			_view.x = CENTER_X - _view.width / 2;
+			_view.y = CENTER_Y - _view.height / 2;
 			initObjects();
 			resetInfo();
 			setObjectsMode();

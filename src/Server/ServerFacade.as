@@ -6,6 +6,7 @@ package Server {
 	 */
 	public class ServerFacade extends EventDispatcher{
 		private var serverPrices:IServerRequest;
+		private var _serverGameRequests:ServerGameRequests;
 		private var _abilityPrices:ServerAbilityPrices;
 		private var _dayRewards:DayRewards;
 		private var _prices:ServerPrices;
@@ -28,6 +29,7 @@ package Server {
 
 		public function init():void {
 			_abilityPrices = new ServerAbilityPrices();
+			_serverGameRequests = new ServerGameRequests();
 			//serverPrices.init();
 			//abilityPricesRequest();
 			dayRewardsRequest(102841);
@@ -127,7 +129,10 @@ package Server {
 			dispatchEvent(new ServerEvent(ServerEvent.JOIN_GAME)); 
 		}
 		
-		//----------------
+		//----------------about game
+		public function giveMeGameInfoPlease(game_id:String):void {
+			_gamesCreate.addEventListener(ServerEvent.CREATE_GAME,onGamesCreated);
+		}
 		public function createGameRequest(user_id:Number, qPlayers:int, type:String, stake:int):void 
 		{
 			_gamesCreate = new CreateGame(user_id, qPlayers, type, stake);
@@ -142,6 +147,9 @@ package Server {
 		public function getNewGame():IServerInfo
 		{
 			return _gamesCreate.info;
+		}
+		public function gameInfoUpdated(e:ServerEvent):void {
+			dispatchEvent(new ServerEvent(ServerEvent.GAME_INFO_UPDATE_LOADED, e.data));
 		}
 		
 		//----------------

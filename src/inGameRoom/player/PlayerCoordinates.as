@@ -1,10 +1,13 @@
 package inGameRoom.player {
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
 	import flash.geom.Point;
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class PlayerCoordinates {
+	public class PlayerCoordinates extends EventDispatcher{
 		public var crd_openCards:Point;
 		public var crd_privateCards:Point;
 		public var crd_ava:Point;
@@ -55,6 +58,7 @@ package inGameRoom.player {
 							break;
 			}
 			crd_sheriff = new Point(crd_ava.x, crd_ava.y);
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 	}

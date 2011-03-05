@@ -21,7 +21,16 @@
 			_nPlayers = int(item.nPlayers);
 			_qPlayers = int(item.qPlayers);
 			_type = String(item.type);
+
+			if (item) {
+				fillPlayers(item);
+			}
+		}
+		
+		private function fillPlayers(item:XML):void {
+			for each (var player:XML in item.players.*) {
 				
+			}
 		}
 		
 		public function get Name():String

@@ -1,4 +1,5 @@
 package Controllers {
+	import Events.GameRoomEvent;
 	import Events.MoveEvent;
 	import gameRooms.BankRoom;
 	import gameRooms.GameRoom;
@@ -6,6 +7,7 @@ package Controllers {
 	import inGameRoom.PackController;
 	import inGameRoom.player.PlayerController;
 	import managers.WindowsManager;
+	import Server.GameInfo;
 	import Server.IServerInfo;
 	import Server.ServerFacade;
 	import Server.ServerEvent;
@@ -15,6 +17,8 @@ package Controllers {
 	 */
 	public class GameController {
 		private var serverFacade:ServerFacade;
+		private var game_id:String;
+		private var gameInfo:GameInfo;
 		
 		private var _gameRoom:GameRoom;
 		private var _moveController:MoveController;
@@ -31,11 +35,14 @@ package Controllers {
 										as GameRoom;
 		}
 		
-		public function initGame():void {
+		public function initGame(gameInfo:GameInfo):void {
+			this.gameInfo = gameInfo;
 			_moveController = new MoveController();
 			_packController = new PackController(_players);
 			WindowsManager.getInstance().show(WindowsManager.GAME_ROOM);
-			//sendServerEvents();
+			_gameRoom.showWaitingTab();
+			sendServerEvents();
+			addListeners();
 			addServerListeners();
 		}
 		
@@ -43,11 +50,10 @@ package Controllers {
 			_packController.startGame();
 			_moveController.startGame();
 		}
-		/*
+		
 		private function sendServerEvents():void {
-			serverFacade.initGame(startGameInfo);
+			serverFacade.giveMeGameInfoPlease(game_id);
 		}
-		*/
 		
 		private function addServerListeners():void {
 			serverFacade.addEventListener(ServerEvent.GAME_START, startGameHandler);
@@ -58,6 +64,7 @@ package Controllers {
 			_moveController.addEventListener(MoveEvent.CHANGE_MOVE, changeMoveHandler);
 			_moveController.addEventListener(MoveEvent.END_MY_MOVE, endMyMoveHandler);
 			_moveController.addEventListener(MoveEvent.START_MY_MOVE, startMyMoveHandler);
+			_gameRoom.addEventListener(GameRoomEvent.READY_FOR_PLAYERS, testAddPlayers);
 		}
 		
 		private function removeListeners():void {
@@ -81,6 +88,16 @@ package Controllers {
 		}
 		private function startGameHandler(event:ServerEvent):void {
 			startGame();
+		}
+		
+		private function testAddPlayers(event:GameRoomEvent):void {
+			for (var i:int = 0; i < 7;++i ) {
+				addPlayer(new PlayerController(), i);
+			}
+		}
+		private function addPlayer(player:PlayerController, place:int):void {
+			player.testInit(place);
+			_gameRoom.view.addChild(player.view);
 		}
 		
 	}

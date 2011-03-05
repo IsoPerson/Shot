@@ -167,7 +167,7 @@ package menu {
 		private function onGameCreated(e:ServerEvent):void{
 			_serverFacade.removeEventListener(ServerEvent.CREATE_GAME, onGameCreated);
 			gameController = new GameController(_serverFacade);
-			gameController.initGame();
+			gameController.initGame(new GameInfo(new XML()));
 		}
 		
 	}
