@@ -1,4 +1,5 @@
-package menu {
+package menu.menuTowers {
+	import Controllers.ViewController;
 	import managers.RoomsManager;
 	
 	import flash.display.MovieClip;
@@ -7,27 +8,32 @@ package menu {
 	 * ...
 	 * @author Chip
 	 */
-	public class MenuTower{
-		private var _view:MovieClip;
+	[Abstract]
+	internal class MenuTower extends ViewController{
 		private var _animationView:MovieClip;
 		private var _hidenObjects:Vector.<MovieClip>;
 		private var _roomId:String;
+	
 		
-		public function MenuTower(view:MovieClip, animationView:MovieClip = null ) {
-			_view = view;
-			_animationView = (animationView) ? animationView : view;
-			if (_view) {
+		public function MenuTower(view:MovieClip) {
+			super(view);
+			_animationView = view;
+			if (view) {
 				setMode();
 				addListeners();
 			}
 		}
 		
-		public function addHidenObjects(objects:Vector.<MovieClip>):void {
+		protected function set animationView(value:MovieClip):void {
+			_animationView = value;
+		}
+		
+		protected function addHidenObjects(objects:Vector.<MovieClip>):void {
 			_hidenObjects = objects;
 			hideHidenObjects();
 		}
 		
-		public function setRoomId(roomId:String):void {
+		protected function setRoomId(roomId:String):void {
 			_roomId = roomId;
 			if (roomId) {
 				_view.addEventListener(MouseEvent.CLICK, openRoom);

@@ -4,6 +4,8 @@ package gameRooms {
 	import flash.text.TextField;
 	import Events.BuyEvent;
 	import graphic.BankRoomView;
+	import ifaceBaseComponents.BaseBtn;
+	import ifaceBaseComponents.BaseTextBtn;
 	
 	import managers.RoomsManager;
 
@@ -12,10 +14,10 @@ package gameRooms {
 	 * @author Chip
 	 */
 	public class BankRoom extends Room {
-		private var _exitBtn:MovieClip;
-		private var _incBtn:MovieClip;
-		private var _decBtn:MovieClip;
-		private var _buyBtn:MovieClip;
+		private var _exitBtn:BaseBtn;
+		private var _incBtn:BaseBtn;
+		private var _decBtn:BaseBtn;
+		private var _buyBtn:BaseTextBtn;
 		private var _moneyTxt:TextField;
 		private var _votesTxt:TextField;
 		
@@ -43,10 +45,10 @@ package gameRooms {
 		}
 		
 		private function initObjects():void {
-			_exitBtn = getMovieClip("exitBtn");
-			_buyBtn = getMovieClip("buyBtn");
-			_incBtn = getMovieClip("r_votes");
-			_decBtn = getMovieClip("l_votes");
+			_exitBtn = new BaseBtn(getMovieClip("exitBtn"));
+			_buyBtn = new BaseTextBtn(getMovieClip("buyBtn"), "Обменять");
+			_incBtn = new BaseBtn(getMovieClip("r_votes"));
+			_decBtn = new BaseBtn(getMovieClip("l_votes"));
 			_moneyTxt = getTextField("moneyTxt");
 			_votesTxt = getTextField("votesTxt");
 		}
@@ -65,21 +67,13 @@ package gameRooms {
 		
 		
 		private function setObjectsMode():void {
-			_exitBtn.mouseChildren = false;
-			_exitBtn.buttonMode = true;
-			_buyBtn.mouseChildren = false;
-			_buyBtn.buttonMode = true;
-			_incBtn.mouseChildren = false;
-			_incBtn.buttonMode = true;
-			_decBtn.mouseChildren = false;
-			_decBtn.buttonMode = true;
 		}
 		
 		private function addListeners():void {
-			_exitBtn.addEventListener(MouseEvent.CLICK, closeHandler);
-			_buyBtn.addEventListener(MouseEvent.CLICK, buyHandler);
-			_incBtn.addEventListener(MouseEvent.CLICK, incVotesHandler);
-			_decBtn.addEventListener(MouseEvent.CLICK, decVotesHandler);
+			_exitBtn.view.addEventListener(MouseEvent.CLICK, closeHandler);
+			_buyBtn.view.addEventListener(MouseEvent.CLICK, buyHandler);
+			_incBtn.view.addEventListener(MouseEvent.CLICK, incVotesHandler);
+			_decBtn.view.addEventListener(MouseEvent.CLICK, decVotesHandler);
 		}
 		
 		private function buyHandler(e:MouseEvent):void{

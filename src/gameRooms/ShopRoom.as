@@ -2,6 +2,8 @@ package gameRooms {
 	import Events.BuyEvent;
 	import Events.RoomEvent;
 	import Events.WindowEvent;
+	import ifaceBaseComponents.BaseBtn;
+	import ifaceBaseComponents.BaseTextBtn;
 	
 	import Server.IServerInfo;
 	import Server.ServerAbilityPricesInfo;
@@ -24,8 +26,8 @@ package gameRooms {
 	 * @author Chip
 	 */
 	public class ShopRoom extends Room {
-		private var _exitBtn:MovieClip;
-		private var _buyBtn:MovieClip;
+		private var _exitBtn:BaseBtn;
+		private var _buyBtn:BaseTextBtn;
 		private var _info:Array = null;
 		private var _abilityList:MovieClip;
 		private var _lastItem:MovieClip;
@@ -56,8 +58,8 @@ package gameRooms {
 		}
 		
 		private function initObjects():void {
-			_exitBtn = getMovieClip("exitBtn");
-			_buyBtn = getMovieClip("buyBtn");
+			_exitBtn = new BaseBtn(getMovieClip("exitBtn"));
+			_buyBtn = new BaseTextBtn(getMovieClip("buyBtn"), "Купить");
 			createInfoMC();
 		}
 		
@@ -71,15 +73,11 @@ package gameRooms {
 		}
 		
 		private function setObjectsMode():void {
-			_exitBtn.mouseChildren = false;
-			_exitBtn.buttonMode = true;
-			_buyBtn.mouseChildren = false;
-			_buyBtn.buttonMode = true;
 		}
 		
 		private function addListeners():void {
-			_exitBtn.addEventListener(MouseEvent.CLICK, exitHandler);
-			_buyBtn.addEventListener(MouseEvent.CLICK, buyHandler);
+			_exitBtn.view.addEventListener(MouseEvent.CLICK, exitHandler);
+			_buyBtn.view.addEventListener(MouseEvent.CLICK, buyHandler);
 		}
 		
 		private function exitHandler(event:MouseEvent):void {

@@ -43,6 +43,10 @@ package gameWindows {
 			return _priority;
 		}
 		
+		public function init():void {
+			
+		}
+		
 		public function show():void {
 			if (view) _parentStage.addChild(view);
 		}

@@ -1,5 +1,7 @@
 package gameWindows {
 	import Events.GameEvent;
+	import ifaceBaseComponents.BaseBtn;
+	import ifaceBaseComponents.BaseTextBtn;
 	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
@@ -14,16 +16,16 @@ package gameWindows {
 	 * @author Chip
 	 */
 	public class CreateGameWindow extends Window {
-		private var _exitBtn:MovieClip;
-		private var _incPlayers:MovieClip;
-		private var _decPlayers:MovieClip;
-		private var _incStake:MovieClip;
-		private var _decStake:MovieClip;
+		private var _exitBtn:BaseBtn;
+		private var _incPlayers:BaseBtn;
+		private var _decPlayers:BaseBtn;
+		private var _incStake:BaseBtn;
+		private var _decStake:BaseBtn;
 		private var _qPlayersTxt:TextField;
 		private var _stakeTxt:TextField;
 		private var _onlyFriends:MovieClip;
 		private var _onlyVip:MovieClip;
-		private var _startBtn:MovieClip;
+		private var _startBtn:BaseTextBtn;
 		
 		private var _cur_Players:int;
 		private var _cur_stake:int;
@@ -49,42 +51,30 @@ package gameWindows {
 		}
 		
 		private function initObjects():void {
-			_exitBtn = getMovieClip("exitBtn");
+			_exitBtn = new BaseBtn(getMovieClip("exitBtn"));
 			_qPlayersTxt = getTextField("qPlayersTxt");
 			_stakeTxt = getTextField("stakeTxt");
-			_incPlayers = getMovieClip("r_qPlayers");
-			_decPlayers = getMovieClip("l_qPlayers");
-			_incStake = getMovieClip("r_stake");
-			_decStake = getMovieClip("l_stake");
+			_incPlayers = new BaseBtn(getMovieClip("r_qPlayers"));
+			_decPlayers = new BaseBtn(getMovieClip("l_qPlayers"));
+			_incStake = new BaseBtn(getMovieClip("r_stake"));
+			_decStake = new BaseBtn(getMovieClip("l_stake"));
 			_onlyFriends = getMovieClip("onlyFriends");
 			_onlyVip = getMovieClip("onlyVip");
-			_startBtn = getMovieClip("startGameBtn");
+			_startBtn = new BaseTextBtn(getMovieClip("startGameBtn"), "Начать");
 		}
 		
 		private function setObjectsMode():void {
-			_exitBtn.mouseChildren = false;
-			_exitBtn.buttonMode = true;
-			_incPlayers.mouseChildren = false;
-			_incPlayers.buttonMode = true;
-			_decPlayers.mouseChildren = false;
-			_decPlayers.buttonMode = true;
-			_decStake.mouseChildren = false;
-			_decStake.buttonMode = true;
-			_incStake.mouseChildren = false;
-			_incStake.buttonMode = true;
-			_startBtn.mouseChildren = false;
-			_startBtn.buttonMode = true;
 		}
 		
 		private function addListeners():void {
-			_exitBtn.addEventListener(MouseEvent.CLICK, closeHandler);
-			_incPlayers.addEventListener(MouseEvent.CLICK, incPlayersHandler);
-			_decPlayers.addEventListener(MouseEvent.CLICK, decPlayersHandler);
-			_incStake.addEventListener(MouseEvent.CLICK, incStakeHandler);
-			_decStake.addEventListener(MouseEvent.CLICK, decStakeHandler);
+			_exitBtn.view.addEventListener(MouseEvent.CLICK, closeHandler);
+			_incPlayers.view.addEventListener(MouseEvent.CLICK, incPlayersHandler);
+			_decPlayers.view.addEventListener(MouseEvent.CLICK, decPlayersHandler);
+			_incStake.view.addEventListener(MouseEvent.CLICK, incStakeHandler);
+			_decStake.view.addEventListener(MouseEvent.CLICK, decStakeHandler);
 			_onlyFriends.addEventListener(MouseEvent.CLICK, friendsHandler);
 			_onlyVip.addEventListener(MouseEvent.CLICK, vipHandler);
-			_startBtn.addEventListener(MouseEvent.CLICK, startHandler);
+			_startBtn.view.addEventListener(MouseEvent.CLICK, startHandler);
 		}
 		
 		private function incPlayersHandler(e:MouseEvent):void{
@@ -109,7 +99,7 @@ package gameWindows {
 			_stakeTxt.text = _cur_stake.toString();
 		}
 		
-		override public function init():void{			
+		override public function init():void{
 			trace("init CreateGameWindow");
 			
 			_qPlayersTxt.text = COUNT_PLAYERS.toString();
@@ -138,7 +128,7 @@ package gameWindows {
 			data["stake"] = _cur_stake;
 			data["onlyFriends"] = _cur_state_friends == 0.01 ? false : true;
 			data["onlyVip"] = _cur_state_vip == 0.01 ? false : true; 
-			dispatchEvent(new GameEvent(GameEvent.CREATE_GAME,data));
+			dispatchEvent(new GameEvent(GameEvent.CREATE_GAME, data));
 		}
 	}
 

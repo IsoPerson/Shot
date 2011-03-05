@@ -1,5 +1,6 @@
 package gameRooms {
 	import Events.RoomEvent;
+	import ifaceBaseComponents.BaseBtn;
 	
 	import Server.GameInfo;
 	import Server.GamesList;
@@ -17,7 +18,7 @@ package gameRooms {
 	 * @author Chip
 	 */
 	public class GameRequestsRoom extends Room {
-		private var _exitBtn:MovieClip;
+		private var _exitBtn:BaseBtn;
 		private var _selectBox:MovieClip;
 		private var _info:Array = null;
 		private var _gamesList:Array = new Array();
@@ -34,18 +35,16 @@ package gameRooms {
 		}
 		
 		private function initObjects():void {
-			_exitBtn = getMovieClip("exitBtn");
+			_exitBtn = new BaseBtn(getMovieClip("exitBtn"));
 			_selectBox = getMovieClip("selectBox");
 		}
 		
 		private function setObjectsMode():void {
-			_exitBtn.mouseChildren = false;
-			_exitBtn.buttonMode = true;
 			_selectBox.visible = false;
 		}
 		
 		private function addListeners():void {
-			_exitBtn.addEventListener(MouseEvent.CLICK, closeHandler);
+			_exitBtn.view.addEventListener(MouseEvent.CLICK, closeHandler);
 		}
 		
 		override public function init():void{			

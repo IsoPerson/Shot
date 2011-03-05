@@ -1,5 +1,9 @@
 package menu {
+	import Controllers.ViewController;
 	import Events.*;
+	import menu.menuTowers.BankTower;
+	import menu.menuTowers.GameRequestsTower;
+	import menu.menuTowers.ShopTower;
 	
 	import Server.*;
 	
@@ -27,28 +31,23 @@ package menu {
 	 * ...
 	 * @author Chip
 	 */
-	public class MainMenu {
-		private var _view:MovieClip;//MainMenuView;
+	public class MainMenu extends ViewController{
 		
-		private var _shopTower:MenuTower;
-		private var _bankTower:MenuTower;
-		private var _gameTower:MenuTower;
+		private var _shopTower:ShopTower;
+		private var _bankTower:BankTower;
+		private var _gameTower:GameRequestsTower;
 		private var _pointer:MenuPointer;
 		private var _serverFacade:ServerFacade;
 		
 		
 		
 		public function MainMenu(view:MovieClip = null) {
-			_view = new MainMenuView();
+			super(new MainMenuView());
 			_serverFacade = new ServerFacade();
 			addRoomsToManager();
 			addWindowsToManager();
 			initObjects();
 			addListeners();
-		}
-		
-		public function get view():MovieClip {
-			return _view;
 		}
 		
 		private function addRoomsToManager():void {
@@ -69,60 +68,26 @@ package menu {
 		}
 		
 		private function initTowers():void {
-			_shopTower = new MenuTower(view.shopTower as MovieClip);
-			initShopTowerHidenObjects();
-			_bankTower = new MenuTower(view.bankTower as MovieClip);
-			initBankTowerHidenObjects();
-			_gameTower = new MenuTower(view.gameTower as MovieClip, view.gameTower.doors);
-			initGameTowerHidenObjects();
-			initTowersRoom();
+			_shopTower = new ShopTower(getMovieClip("shopTower"));
+			_bankTower = new BankTower(getMovieClip("bankTower"));
+			_gameTower = new GameRequestsTower(getMovieClip("gameTower"));
 		}
 		
 		private function initPointer():void {
 			_pointer = new MenuPointer(view.pointer);
-			_pointer.addEventListener(WindowEvent.CREATE_GAME, showCreateGame);
 		}
 		
-		private function initShopTowerHidenObjects():void {
-			var hidenObjects:Vector.<MovieClip> = new Vector.<MovieClip>;
-			hidenObjects.push(view.shopTower.wind_1);
-			hidenObjects.push(view.shopTower.wind_2);
-			hidenObjects.push(view.shopTower.wind_3);
-			_shopTower.addHidenObjects(hidenObjects);
-		}
-		private function initBankTowerHidenObjects():void {
-			var hidenObjects:Vector.<MovieClip> = new Vector.<MovieClip>;
-			hidenObjects = new Vector.<MovieClip>;
-			hidenObjects.push(view.bankTower.wind_1);
-			hidenObjects.push(view.bankTower.wind_2);
-			_bankTower.addHidenObjects(hidenObjects);
-		}
-		private function initGameTowerHidenObjects():void {
-			var hidenObjects:Vector.<MovieClip> = new Vector.<MovieClip>;
-			hidenObjects = new Vector.<MovieClip>;
-			hidenObjects.push(view.gameTower.winds);
-			_gameTower.addHidenObjects(hidenObjects);
-		}
-		
-		private function initTowersRoom():void {
-			_shopTower.setRoomId(RoomsManager.SHOP_ROOM);
-			_bankTower.setRoomId(RoomsManager.BANK_ROOM);
-			_gameTower.setRoomId(RoomsManager.GAME_REQUESTS_ROOM);
-		}
-				
 		private function addListeners():void {
-			addShopTowerListeners();
+			addRoomsListeners();
 		}
 		
-		private function addShopTowerListeners():void {
+		private function addRoomsListeners():void {
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).addEventListener(BuyEvent.BUY_ABILITY, buyAbility);
 			RoomsManager.getInstance().getRoom(RoomsManager.BANK_ROOM).addEventListener(BuyEvent.BUY_MONEY, buyMoney);
-			RoomsManager.getInstance().getRoom(RoomsManager.GAME_REQUESTS_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA, getGameRequestsInfo);
+			RoomsManager.getInstance().getRoom(RoomsManager.GAME_REQUESTS_ROOM).addEventListener(RoomEvent.WANT_SERVER_DATA,
+																					getGameRequestsInfo);
 		}
-		
-		
-		
 		
 		private function getShopInfo(e:RoomEvent):void{
 			RoomsManager.getInstance().getRoom(RoomsManager.SHOP_ROOM).removeEventListener(RoomEvent.WANT_SERVER_DATA, getShopInfo);
@@ -186,20 +151,13 @@ package menu {
 			
 		}
 		
-		private function showCreateGame(e:WindowEvent):void{
-			WindowsManager.getInstance().show(WindowsManager.CREATE_GAME_WINDOW);
-			WindowsManager.getInstance().getWindow(WindowsManager.CREATE_GAME_WINDOW).addEventListener(GameEvent.CREATE_GAME, onCreateGame);
-		}
-		
 		private function onCreateGame(e:GameEvent):void{
 			_serverFacade.createGameRequest(102841,e.data["qPlayers"],"F",e.data["stake"]);
 			_serverFacade.addEventListener(ServerEvent.CREATE_GAME, onGameCreated);
 		}
 		
 		private function onGameCreated(e:ServerEvent):void{
-			
 			_serverFacade.removeEventListener(ServerEvent.CREATE_GAME, onGameCreated);
-			
 		}
 		
 	}

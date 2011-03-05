@@ -46,7 +46,7 @@ package managers {
 		
 		public function show(windowName:String):void {
 			if (_stage) {
-				addToStage(getObjectById(windowName) as MovieClip);
+				addToStage(getWindow(windowName).view);
 			}
 			getWindow(windowName).init();
 		}

@@ -4,12 +4,13 @@ package menu {
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import menu.menuPointer.ArrowCreateGame;
 	/**
 	 * ...
 	 * @author Chip
 	 */
 	public class MenuPointer extends ViewController{
-		private var _arrowCreateGame:MovieClip;
+		private var _arrowCreateGame:ArrowCreateGame;
 		private var _arrowFastGame:MovieClip;
 		private var _arrowTopPlayers:MovieClip;
 		
@@ -21,15 +22,12 @@ package menu {
 		}
 		
 		private function initArrows():void {
-			_arrowCreateGame = view.arrowCreateGame as MovieClip;
-			_arrowFastGame = view.arrowFastGame as MovieClip;
-			_arrowTopPlayers = view.arrowTopPlayers as MovieClip;
+			_arrowCreateGame = new ArrowCreateGame(getMovieClip("arrowCreateGame"));
+			_arrowFastGame = getMovieClip("arrowFastGame");
+			_arrowTopPlayers = getMovieClip("arrowTopPlayers");
 		}
 		
 		private function setArrowsMode():void {
-			_arrowCreateGame.gotoAndStop(0);
-			_arrowCreateGame.mouseChildren = false;
-			_arrowCreateGame.buttonMode = true;
 			_arrowFastGame.gotoAndStop(0);
 			_arrowFastGame.mouseChildren = false;
 			_arrowFastGame.buttonMode = true;
@@ -39,10 +37,8 @@ package menu {
 		}
 		
 		private function addListeners():void {
-			addListenerFor(_arrowCreateGame);
 			addListenerFor(_arrowFastGame);
 			addListenerFor(_arrowTopPlayers);
-			_arrowCreateGame.addEventListener(MouseEvent.CLICK,createGameHandler);
 		}
 		private function addListenerFor(arrow:MovieClip):void {
 			arrow.addEventListener(MouseEvent.MOUSE_OVER, onArrowMouseOver);
@@ -63,11 +59,6 @@ package menu {
 		private function onArrowMouseOut(event:MouseEvent):void {
 			(event.target as MovieClip).gotoAndStop(0);
 		}
-		
-		private function createGameHandler(e:MouseEvent):void
-		{
-			dispatchEvent(new WindowEvent(WindowEvent.CREATE_GAME));
-		}
-	}
 
+	}
 }
