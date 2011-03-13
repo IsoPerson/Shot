@@ -1,20 +1,19 @@
 ﻿package  Server  
 {
 	
-	public class GameIdInfo implements IServerInfo
+	public class GameIdInfo extends GameInfo implements IServerInfo
 	{
 
 		private var _answer:Boolean = false;
 		private var _description:String = "";
-		private var _id:Number = 0;
 		
 		
 		public function GameIdInfo(response:XML) 
 		{
+			super(response);
 			if (Number(response.game_id) > 0)
 			{
 				_answer = true;
-				_id = Number(response.game_id);
 			}
 			else
 			{
@@ -35,10 +34,5 @@
 			return _description;
 		}
 		
-		public function get id():Number
-		{
-			return _id;
-		}
 	}
-	
 }

@@ -46,13 +46,15 @@ package menu {
 		
 		private var gameController:GameController;
 		
-		public function MainMenu(view:MovieClip = null) {
+		public function MainMenu(serverFacade:ServerFacade) {
 			super(new MainMenuView());
-			_serverFacade = new ServerFacade();
+			_serverFacade = serverFacade || new ServerFacade("");
 			addWindowsToManager();
 			initObjects();
 			addListeners();
 		}
+		
+		public function set serverFacade(value:ServerFacade):void { _serverFacade = value; }
 		
 		private function addWindowsToManager():void {
 			WindowsManager.getInstance().register(new ShopRoom());
@@ -167,20 +169,19 @@ package menu {
 		}
 		
 		private function onCreateGame(e:GameEvent):void{
-			_serverFacade.createGameRequest(102841,e.data["qPlayers"],"F",e.data["stake"]);
+			_serverFacade.createGameRequest(e.data["qPlayers"],"N",e.data["stake"]);
 			_serverFacade.addEventListener(ServerEvent.CREATE_GAME, onGameCreated);
 		}
 		
-		private function onGameCreated(e:ServerEvent):void{
+		private function onGameCreated(event:ServerEvent):void{
 			_serverFacade.removeEventListener(ServerEvent.CREATE_GAME, onGameCreated);
 			gameController = new GameController(_serverFacade);
-			gameController.initGame(new GameInfo(new XML()));
+			gameController.initGame(event.data as GameInfo);
 		}
 		
 		private function findGameHandler(event:MenuPointerEvent):void{
 			_serverFacade.findGameRequest();
 			_serverFacade.addEventListener(ServerEvent.FIND_GAME, findGameCompleteHandler);
-			//запрос на игру
 		}
 		
 		private function findGameCompleteHandler(event:ServerEvent):void{

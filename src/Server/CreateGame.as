@@ -6,12 +6,14 @@
 	public class CreateGame extends EventDispatcher
 	{
 		private var url_loader:URLLoader;
-		private var _info:GameIdInfo;
+		private var _info:GameInfo;
 		
 		
-		public function CreateGame(user_id:Number, qPlayers:int, type:String, stake:int) 
+		public function CreateGame(user_id:String, qPlayers:int, type:String, stake:int) 
 		{
-			var url_request:URLRequest = new URLRequest(ServerPaths.SERVER_URL+"createGame.php?user_id="+user_id+"&qPlayers="+qPlayers+"&stake="+stake+"&type="+type);
+			var url_request:URLRequest = new URLRequest(ServerPaths.SERVER_URL+
+																									"createGame.php?user_id="+user_id+"&qPlayers="+
+																									qPlayers+"&stake="+stake+"&type="+type);
 			url_loader = new URLLoader;			
 			url_loader.addEventListener(Event.COMPLETE,onLoaded);	
 			url_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,onError);	
@@ -21,7 +23,7 @@
 		
 		private function onLoaded(e:Event):void
 		{			
-			_info = new GameIdInfo(new XML(url_loader.data));
+			_info = new GameInfo(new XML(url_loader.data));
 			dispatchEvent(new ServerEvent(ServerEvent.CREATE_GAME,_info));
 			
 		}
@@ -30,7 +32,7 @@
 		{			
 		}
 		
-		public function get info():GameIdInfo
+		public function get info():GameInfo
 		{
 			return _info;
 		}

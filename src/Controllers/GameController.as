@@ -45,7 +45,6 @@ package Controllers {
 		
 		public function initGame(gameInfo:IServerInfo):void {
 			this.gameInfo = gameInfo as GameInfo;
-			this.gameInfo.addEventListener(ServerGameEvent.GAME_INFO_UPDATED, gameInfoUpdatedHandler);
 			game_id = this.gameInfo.id.toString();
 			_moveController = new MoveController();
 			_packController = new PackController(_players);
@@ -57,7 +56,6 @@ package Controllers {
 		}
 		
 		private function startGame():void {
-			gameInfo.addEventListener(ServerGameEvent.GAME_INFO_UPDATED, gameInfoUpdatedHandler);
 			_packController.createTestPack();
 			_packController.startGame();
 			_moveController.startGame();
@@ -69,9 +67,11 @@ package Controllers {
 		
 		private function addServerListeners():void {
 			serverFacade.addEventListener(ServerEvent.GAME_START, startGameHandler);
+			gameInfo.addEventListener(ServerGameEvent.GAME_INFO_UPDATED, gameInfoUpdatedHandler);
 		}
 		private function removeServerListeners():void{
 			serverFacade.removeEventListener(ServerEvent.GAME_START, startGameHandler);
+			gameInfo.removeEventListener(ServerGameEvent.GAME_INFO_UPDATED, gameInfoUpdatedHandler);
 		}
 		
 		private function addListeners():void {
@@ -83,12 +83,10 @@ package Controllers {
 		}
 		
 		private function removeListeners():void {
-			
 		}
 		
 		//handlers
 		private function changeMoveHandler(event:MoveEvent):void {
-			
 		}
 		private function startMyMoveHandler(event:MoveEvent):void {
 			_gameRoom.unblockMoveIface();
@@ -99,7 +97,8 @@ package Controllers {
 		
 		//server handlers
 		private function gameInfoUpdatedHandler(event:ServerGameEvent):void {
-			
+			_gameRoom.tabWaiting.setNumPlayersForWaiting(gameInfo.qPlayers - gameInfo.nPlayers);
+			updatePlayers();
 		}
 		private function startGameHandler(event:ServerEvent):void {
 			removeServerListeners();
@@ -114,6 +113,10 @@ package Controllers {
 			for each (var player:PlayerController in _players) {
 				player.remove();
 			}
+		}
+		
+		private function updatePlayers():void{
+			
 		}
 		
 		private function testAddPlayers(event:GameRoomEvent):void {

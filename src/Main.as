@@ -1,15 +1,22 @@
 ﻿package {
 	import Events.VkFriendsEvent;
+	
+	import Server.ServerFacade;
+	
 	import flash.display.Sprite;
+	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	
 	import gameChat.Chat;
+	
+	import graphic.MainMenuView;
+	
 	import managers.LayersManager;
+	import managers.WindowsManager;
 	
 	import menu.MainMenu;
-	import managers.WindowsManager;
+	
 	import vkontakte.VkFriends;
-	import flash.display.StageScaleMode;
-	import graphic.MainMenuView;
 	
 	/**
 	 * ...
@@ -19,6 +26,8 @@
 	public class Main extends Sprite {
 		private var mainMenu:MainMenu;
 		private var chat:Chat;
+		
+		private var wrapper:Object;
 		
 		public function Main():void {
 			if (stage) init();
@@ -31,16 +40,36 @@
 			
 			LayersManager.getInstance().layersContainer = this;
 			LayersManager.getInstance().registerLayers();
+			
 			var vkFriends:VkFriends = new VkFriends();
-			stage.scaleMode = StageScaleMode.NO_SCALE;
+			
 			WindowsManager.getInstance().setRoomsStage(LayersManager.getInstance().getLayer(LayersManager.ROOMS));
 			WindowsManager.getInstance().setWindowsStage(LayersManager.getInstance().getLayer(LayersManager.WINDOWS));
-			mainMenu = new MainMenu();
-			chat = new Chat();
-			LayersManager.getInstance().getLayer(LayersManager.BASE).addChild(mainMenu.view);
-			LayersManager.getInstance().getLayer(LayersManager.BASE).addChild(chat.view);
 
-			//addChild(testGraphic);
+			initMainMenu();
+			
+			initChat();
+			
+		}
+		
+		private function initMainMenu():void{
+			mainMenu = new MainMenu(createServerFacade());
+			LayersManager.getInstance().getLayer(LayersManager.BASE).addChild(mainMenu.view);
+		}
+		
+		private function createServerFacade():ServerFacade{
+			if (parent.parent) { wrapper = Object(parent.parent); }
+			var viewerId:String;
+			if ((wrapper) && (wrapper.application)) {
+				viewerId = wrapper.application.parameters.viewer_id;
+				//server_url = wrapper.application.parameters.api_url + '?';
+			} else { viewerId = "55743"; }
+			return new ServerFacade(viewerId);
+		}
+		
+		private function initChat():void{
+			chat = new Chat();
+			LayersManager.getInstance().getLayer(LayersManager.BASE).addChild(chat.view);
 		}
 		
 	}

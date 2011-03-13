@@ -21,7 +21,7 @@ package inGameRoom {
 		private var _nPlayersTxt:TextField;
 		
 		private const START_TEXT:String = "Ожидание игроков";
-		private const BASE_TEXT:String = "Ожидание игроков, еще";
+		private const BASE_TEXT:String = "Ожидание игроков, еще: ";
 		
 		public function TabWaitingForPlayers() {
 			super(new TabWaitingForPlayersView());

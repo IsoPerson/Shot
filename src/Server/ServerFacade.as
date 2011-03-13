@@ -20,11 +20,12 @@ package Server {
 		private var _buyMoney:BuyMoney;
 		private var _buyVip:BuyVip;
 		
-		private var _vkId:String;
+		private var _vkId:String = "55743";
 		
 		
-		public function ServerFacade() {
+		public function ServerFacade(vkId:String) {
 			super();
+			_vkId = vkId;
 			init();
 			addListeners();
 		}
@@ -145,9 +146,9 @@ package Server {
 			_serverGameRequests.stopGetGameInfo();
 		}
 		
-		public function createGameRequest(user_id:Number, qPlayers:int, type:String, stake:int):void 
+		public function createGameRequest(qPlayers:int, type:String, stake:int):void 
 		{
-			_gamesCreate = new CreateGame(user_id, qPlayers, type, stake);
+			_gamesCreate = new CreateGame(_vkId, qPlayers, type, stake);
 			_gamesCreate.addEventListener(ServerEvent.CREATE_GAME,onGamesCreated);
 		}
 		private function onGamesCreated(e:ServerEvent):void

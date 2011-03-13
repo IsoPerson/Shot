@@ -129,8 +129,8 @@ package gameWindows {
 		
 		private function startGame():void {
 			var data:Array = new Array();
-			data["qPlayers"] = _cur_Players;
-			data["stake"] = _cur_stake;
+			data["qPlayers"] = _qPlayersTxt.text;
+			data["stake"] = _stakeTxt.text;
 			data["onlyFriends"] = _cur_state_friends == 0.01 ? false : true;
 			data["onlyVip"] = _cur_state_vip == 0.01 ? false : true; 
 			dispatchEvent(new GameEvent(GameEvent.CREATE_GAME, data));
