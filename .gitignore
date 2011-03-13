@@ -8,3 +8,6 @@ Shot/html-template
 Shot/.settings
 Shot/bin-debug
 Shot
+.project
+.settings
+.actionScriptProperties

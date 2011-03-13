@@ -8,6 +8,7 @@ package abilityes {
 	 * ...
 	 * @author Chip
 	 */
+	[SWF(width=800, height=800, frameRate=25)]
 	public class AbilityInShop extends ViewController {
 		private var _pushedFilter:MovieClip;
 		private var _priceTxt:TextField;

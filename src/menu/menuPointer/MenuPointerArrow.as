@@ -1,8 +1,11 @@
 package menu.menuPointer {
 	import Controllers.ViewController;
+	
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.filters.GlowFilter;
+
 	/**
 	 * ...
 	 * @author Chip
@@ -26,8 +29,9 @@ package menu.menuPointer {
 		
 		protected function addListeners():void {
 			_view.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			_view.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
 		}
-
+/*
 		private function onEnterFrame(event:Event):void {
 			if (view.currentFrame == view.totalFrames) {
 				view.stop();
@@ -42,6 +46,15 @@ package menu.menuPointer {
 				view.play();
 				view.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
+		}
+	*/
+		
+		private function onMouseOver(event:MouseEvent):void{
+			var filter:GlowFilter = new GlowFilter(0xFFFFFF, .5, 20, 20, 2);
+			view.filters = [filter];
+		}
+		private function onMouseOut(event:MouseEvent):void{
+			view.filters = [];
 		}
 		
 	}

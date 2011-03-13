@@ -1,11 +1,8 @@
 package menu {
 	import Controllers.GameController;
 	import Controllers.ViewController;
+	
 	import Events.*;
-	import ifaceBaseComponents.BaseTextBtn;
-	import menu.menuTowers.BankTower;
-	import menu.menuTowers.GameRequestsTower;
-	import menu.menuTowers.ShopTower;
 	
 	import Server.*;
 	
@@ -24,9 +21,14 @@ package menu {
 	import graphic.Tab_createGame;
 	import graphic.gameRooms.ShopRoomView;
 	
+	import ifaceBaseComponents.BaseTextBtn;
+	
 	import managers.WindowsManager;
 	
 	import menu.menuPointer.MenuPointer;
+	import menu.menuTowers.BankTower;
+	import menu.menuTowers.GameRequestsTower;
+	import menu.menuTowers.ShopTower;
 
 	/**
 	 * ...
@@ -80,6 +82,7 @@ package menu {
 		private function addListeners():void {
 			addRoomsListeners();
 			addWindowsListeners();
+			addPointerListeners();
 		}
 		
 		private function addRoomsListeners():void {
@@ -94,6 +97,10 @@ package menu {
 		private function addWindowsListeners():void {
 			WindowsManager.getInstance().getElement(WindowsManager.CREATE_GAME_WINDOW).addEventListener(
 													GameEvent.CREATE_GAME, onCreateGame);
+		}
+		
+		private function addPointerListeners():void{
+			_pointer.addEventListener(MenuPointerEvent.FIND_GAME, findGameHandler);
 		}
 		
 		private function getShopInfo(e:RoomEvent):void{
@@ -168,6 +175,18 @@ package menu {
 			_serverFacade.removeEventListener(ServerEvent.CREATE_GAME, onGameCreated);
 			gameController = new GameController(_serverFacade);
 			gameController.initGame(new GameInfo(new XML()));
+		}
+		
+		private function findGameHandler(event:MenuPointerEvent):void{
+			_serverFacade.findGameRequest();
+			_serverFacade.addEventListener(ServerEvent.FIND_GAME, findGameCompleteHandler);
+			//запрос на игру
+		}
+		
+		private function findGameCompleteHandler(event:ServerEvent):void{
+			_serverFacade.removeEventListener(ServerEvent.FIND_GAME, findGameCompleteHandler);
+			gameController  = new GameController(_serverFacade);
+			gameController.initGame(event.data);
 		}
 		
 	}

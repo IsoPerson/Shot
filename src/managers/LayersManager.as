@@ -8,8 +8,9 @@ package managers {
 	 * @author Chip
 	 */
 	public class LayersManager implements IManager {
-		private static var _layersContainer:Sprite = new Sprite;
-		private static var _layersList:Vector.<Layer> = new Vector.<Layer>;
+		private static var _instance:LayersManager;
+		private var _layersContainer:Sprite = new Sprite;
+		private var _layersList:Vector.<Layer> = new Vector.<Layer>;
 		
 		public static const BASE:String = "baseLayer";
 		public static const ROOMS:String = "roomsLayer";
@@ -17,33 +18,42 @@ package managers {
 		public static const CARDS:String = "cardsLayer";
 		public static const MESSAGES:String = "messagesLayer";
 		public static const WINDOWS:String = "windowsLayer";
+		public static const TOOLTIP:String = "tooltipLayer";
 
 		public function LayersManager() {
 		}
 		
-		public static function getLayer(layerName:String):Layer {
+		public static function getInstance():LayersManager {
+			if (!_instance) { _instance = new LayersManager; }
+			return _instance;
+		}
+		
+		public function getLayer(layerName:String):Layer {
 			for each (var item:Layer in _layersList) {
 				if (item.layerName == layerName) return item;
 			}
 			return null;
 		}
 		
-		public static function set layersContainer(value:Sprite):void {
+		public function set layersContainer(value:Sprite):void {
 			_layersContainer = value;
 		}
 
-		public static function registerLayers():void {
+		public function registerLayers():void {
 			addLayer(new Layer(BASE));
 			addLayer(new Layer(ROOMS));
 			addLayer(new Layer(PLAYERS));
 			addLayer(new Layer(CARDS));
 			addLayer(new Layer(MESSAGES));
 			addLayer(new Layer(WINDOWS));
+			addLayer(new Layer(TOOLTIP));
 		}
 		
-		private static function addLayer(layer:Layer):void {
+		private function addLayer(layer:Layer):void {
 			_layersList.push(layer);
-			_layersContainer.addChild(layer);
+			if (_layersContainer){
+				_layersContainer.addChild(layer);
+			}
 		}
 
 	}

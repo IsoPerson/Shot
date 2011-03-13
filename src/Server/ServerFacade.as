@@ -20,11 +20,18 @@ package Server {
 		private var _buyMoney:BuyMoney;
 		private var _buyVip:BuyVip;
 		
+		private var _vkId:String;
+		
 		
 		public function ServerFacade() {
 			super();
 			init();
 			addListeners();
+		}
+		
+		public function get vkId():String { return _vkId }
+		public function set vkId(value:String):void {
+			_vkId = value;
 		}
 
 		public function init():void {
@@ -102,19 +109,19 @@ package Server {
 		private function onGamesLoaded(e:ServerEvent):void
 		{
 			_games.removeEventListener(ServerEvent.GET_GAME,onGamesLoaded);
-			dispatchEvent(new ServerEvent(ServerEvent.GET_GAME)); 
+			dispatchEvent(new ServerEvent(ServerEvent.GET_GAME, e.data)); 
 		}
 		
-		//----------------
-		public function findGameRequest(vkid:Number):void 
+		//----------------find game
+		public function findGameRequest():void 
 		{
-			_gamesFind = new FindGame(vkid);
+			_gamesFind = new FindGame(_vkId);
 			_gamesFind.addEventListener(ServerEvent.FIND_GAME,onGamesFinded);
 		}
 		private function onGamesFinded(e:ServerEvent):void
 		{
 			_gamesFind.removeEventListener(ServerEvent.FIND_GAME,onGamesFinded);
-			dispatchEvent(new ServerEvent(ServerEvent.FIND_GAME)); 
+			dispatchEvent(new ServerEvent(ServerEvent.FIND_GAME, e.data)); 
 		}
 		
 		//----------------
@@ -131,7 +138,7 @@ package Server {
 		
 		//----------------about game
 		public function giveMeGameInfoPlease(game_id:String):void {
-			_gamesCreate.addEventListener(ServerEvent.CREATE_GAME,onGamesCreated);
+			_serverGameRequests.startGetGameInfo(game_id);
 		}
 		public function createGameRequest(user_id:Number, qPlayers:int, type:String, stake:int):void 
 		{
@@ -208,5 +215,4 @@ package Server {
 		
 		
 	}
-
 }

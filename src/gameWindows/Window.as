@@ -6,6 +6,7 @@ package gameWindows {
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import graphic.WindowClouds;
 	import Server.IServerInfo;
 	
@@ -22,10 +23,15 @@ package gameWindows {
 		private var _name:String;
 		private var _type:uint;
 		private var _priority:uint;
+		
+		private var _position:Point;
+		private var _width:Number;
+		private var _height:Number;
 
 		private var _parentStage:DisplayObjectContainer;
 		
 		private const SHOW_SPEED:Number = .4;
+		private const HIDE_SPEED:Number = .3;
 		
 		public static const NORMAL:uint = 0;
 		public static const FULL_SCREEN:uint = 1;
@@ -35,6 +41,8 @@ package gameWindows {
 			_name = name;
 			_type = windowType;
 			_priority = priority;
+			_width = view.width;
+			_height = view.height;
 			if (windowType == NORMAL) {
 				createEase();
 			}
@@ -61,7 +69,7 @@ package gameWindows {
 		}
 		
 		public function closeHandler(event:MouseEvent = null):void {
-			dispatchEvent(new WindowEvent(WindowEvent.CLOSE, this));
+			close();// animateWindowHide();
 		}
 		
 		private function createEase():void {
@@ -77,17 +85,26 @@ package gameWindows {
 		}
 		
 		private function addToStageHandler(event:Event):void {
+			if (!_position) { _position = new Point(view.x, view.y); }
 			animateWindowShow();
 		}
 		
 		private function animateWindowShow():void {
-			var viewX:Number = view.x;
-			var viewY:Number = view.y;
-			view.x += view.width / 2;
-			view.y += view.height / 2;
+			view.x = _position.x + _width / 2;
+			view.y = _position.y + _height / 2;
 			view.scaleX = 0;
 			view.scaleY = 0;
-			TweenMax.to(view, SHOW_SPEED, {scaleX:1, scaleY:1, x:viewX, y:viewY, ease:CustomEase.byName("bottomWindEase")});
+			TweenMax.to(view, SHOW_SPEED, {scaleX:1, scaleY:1, x:_position.x, y:_position.y, ease:CustomEase.byName("bottomWindEase")});
+		}
+		
+		public function animateWindowHide():void {
+			TweenMax.to(view, HIDE_SPEED, { scaleX:0, scaleY:0, x: _position.x + _width / 2,
+																			y:_position.y + _height / 2,
+																			onComplete: close});
+		}
+		
+		private function close():void {
+			dispatchEvent(new WindowEvent(WindowEvent.CLOSE, this));
 		}
 		
 	}

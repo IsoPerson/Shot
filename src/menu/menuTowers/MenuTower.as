@@ -26,6 +26,7 @@ package menu.menuTowers {
 		
 		protected function set animationView(value:MovieClip):void {
 			_animationView = value;
+			_animationView.gotoAndStop(0);
 		}
 		
 		protected function addHidenObjects(objects:Vector.<MovieClip>):void {

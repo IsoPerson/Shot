@@ -13,6 +13,9 @@ package inGameRoom.player {
 		
 		public function PlayerInfo() {
 			super();
+			_vkInfo = new PlayerVkInfo();
+			_gameInfo = new PlayerGameInfo(0, false);
+			_baseInfo = new PlayerBaseInfo();
 		}
 		
 		public function setVkInfo(playerVkInfo:PlayerVkInfo):void {
@@ -33,6 +36,12 @@ package inGameRoom.player {
 		
 		public function get gameInfo():PlayerGameInfo {
 			return _gameInfo;
+		}
+		public function get baseInfo():PlayerBaseInfo {
+			return _baseInfo;
+		}
+		public function get vkInfo():PlayerVkInfo{
+			return _vkInfo;
 		}
 		
 		public function addAbility(ability:Ability):void {

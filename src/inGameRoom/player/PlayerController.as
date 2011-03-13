@@ -2,6 +2,7 @@ package inGameRoom.player {
 	import abilityes.Ability;
 	import abilityes.AbilityViewForPlayerDetails;
 	import Controllers.ViewController;
+	import Events.CardViewEvent;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -28,14 +29,22 @@ package inGameRoom.player {
 			_playerInfo = new PlayerInfo();
 			coordinates = new PlayerCoordinates();
 			coordinates.addEventListener(Event.CHANGE, coordinatesChangeHandler);
-			_cardsController = new PlayerCardsController(_playerInfo.gameInfo);
 			initObjects();
 			setObjectsMode();
 			addListeners();
 		}
 		
 		public function testInit(place:int):void {
+			_playerInfo.baseInfo.position = place;
 			coordinates.set_crds(place);
+			initCardsController();
+		}
+		
+		public function initCardsController():void {
+			var cardsRightOrientation:Boolean = _playerInfo.baseInfo.position < 4 ? true : false;
+			_cardsController = new PlayerCardsController(_playerInfo.gameInfo, coordinates.crd_privateCards,
+																										coordinates.crd_openCards, cardsRightOrientation);
+			_cardsController.addEventListener(CardViewEvent.CLICK, cardClickHandler);
 		}
 		
 		public function get playerInfo():PlayerInfo {
@@ -73,6 +82,15 @@ package inGameRoom.player {
 		
 		private function rollOutHandler(event:MouseEvent):void {
 			TweenMax.to(_rPanel, 1, { alpha:0 } );
+		}
+		
+		private function cardClickHandler(event:CardViewEvent):void {
+			playerInfo.gameInfo.getCard(event.cardId).play();
+		}
+		
+		public function remove():void {
+			playerInfo.gameInfo.removeCards();
+			_cardsController.removeCards();
 		}
 		
 	}

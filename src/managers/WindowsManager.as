@@ -19,7 +19,8 @@ package managers {
 		private var windows:Vector.<Window>;
 		private var windowQueue:Vector.<Window>;
 		
-		private var _stage:DisplayObjectContainer;
+		private var _stageForWindows:DisplayObjectContainer;
+		private var _stageForRooms:DisplayObjectContainer;
 		private var defaultStage:DisplayObjectContainer;
 		
 		private var shadow:WindowShadow;
@@ -38,12 +39,23 @@ package managers {
 		}
 		
 		public static function getInstance():WindowsManager {
+			if(!_instance) { _instance = new WindowsManager(); }
 			return _instance;
 		}
 		
-		public static function setStage(value:DisplayObjectContainer):void {
-			if (!_instance) _instance = new WindowsManager();
-			_instance._stage = value;
+		public function getStage(type:uint):DisplayObjectContainer {
+			if (type == Window.NORMAL) {
+				return _stageForWindows;
+			}else {
+				return _stageForRooms;
+			}
+		}
+		
+		public function setWindowsStage(value:DisplayObjectContainer):void {
+			_stageForWindows = value;
+		}
+		public function setRoomsStage(value:DisplayObjectContainer):void {
+			_stageForRooms = value;
 		}
 		
 		public function register(wind:Window):void {
@@ -57,7 +69,7 @@ package managers {
 		}
 		
 		public function show(windowName:String):void {
-			if (_stage) {
+			if (getStage(getElement(windowName).type)) {
 				addToStage(getElement(windowName));
 				getElement(windowName).init();
 			}
@@ -79,43 +91,31 @@ package managers {
 		private function addToStage(window:Window):void {
 			if (window) {
 				addShadow(window);
-				_stage.addChild(window.view);
+				getStage(window.type).addChild(window.view);
 			}
 		}
 		private function removeFromStage(window:Window):void {
 			if (window) {
 				removeShadow(window);
-				_stage.removeChild(window.view);
+				if (getStage(window.type).contains(window.view)) {
+					getStage(window.type).removeChild(window.view);
+				}else { trace("window dont contains in stage type -- " + window.type); }
 			}
 		}
 		
 		private function addShadow(window:Window):void {
 			if (window.type == Window.NORMAL) {
-				_stage.addChild(shadow.view);
+				getStage(window.type).addChild(shadow.view);
 			}
 		}
 		private function removeShadow(window:Window):void {
 			if (window.type == Window.NORMAL) {
-				if (_stage.contains(shadow.view)) {
-					_stage.removeChild(shadow.view);
+				if (getStage(window.type).contains(shadow.view)) {
+					getStage(window.type).removeChild(shadow.view);
 				}
 			}
 		}
 
-		private function showWindowByName(windowName:String):void {
-			for each (var window:Window in windows) {
-				if (window.name == windowName) showWindow(window);
-			}
-		}
-		
-		private function showWindow(wind:Window):void {
-			for (var i:int = 0; i < windowQueue.length; ++i) {
-				if (windowQueue[i].priority > wind.priority) {
-					_stage.addChild(windowQueue.splice(i, 0, wind).view);
-				}
-			}
-		}
-		
 		private function closeWindowHandler(event:WindowEvent):void {
 			removeFromStage(event.window);
 		}

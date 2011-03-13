@@ -1,5 +1,6 @@
 package gameWindows {
 	import Events.GameEvent;
+	import ifaceBaseComponents.BaseArrowBtn;
 	import ifaceBaseComponents.BaseBtn;
 	import ifaceBaseComponents.BaseTextBtn;
 	
@@ -17,10 +18,10 @@ package gameWindows {
 	 */
 	public class CreateGameWindow extends Window {
 		private var _exitBtn:BaseBtn;
-		private var _incPlayers:BaseBtn;
-		private var _decPlayers:BaseBtn;
-		private var _incStake:BaseBtn;
-		private var _decStake:BaseBtn;
+		private var _incPlayers:BaseArrowBtn;
+		private var _decPlayers:BaseArrowBtn;
+		private var _incStake:BaseArrowBtn;
+		private var _decStake:BaseArrowBtn;
 		private var _qPlayersTxt:TextField;
 		private var _stakeTxt:TextField;
 		private var _onlyFriends:MovieClip;
@@ -54,10 +55,10 @@ package gameWindows {
 			_exitBtn = new BaseBtn(getMovieClip("exitBtn"));
 			_qPlayersTxt = getTextField("qPlayersTxt");
 			_stakeTxt = getTextField("stakeTxt");
-			_incPlayers = new BaseBtn(getMovieClip("r_qPlayers"));
-			_decPlayers = new BaseBtn(getMovieClip("l_qPlayers"));
-			_incStake = new BaseBtn(getMovieClip("r_stake"));
-			_decStake = new BaseBtn(getMovieClip("l_stake"));
+			_incPlayers = new BaseArrowBtn(getMovieClip("r_qPlayers"), BaseArrowBtn.RIGHT);
+			_decPlayers = new BaseArrowBtn(getMovieClip("l_qPlayers"), BaseArrowBtn.LEFT);
+			_incStake = new BaseArrowBtn(getMovieClip("r_stake"), BaseArrowBtn.RIGHT);
+			_decStake = new BaseArrowBtn(getMovieClip("l_stake"), BaseArrowBtn.LEFT);
 			_onlyFriends = getMovieClip("onlyFriends");
 			_onlyVip = getMovieClip("onlyVip");
 			_startBtn = new BaseTextBtn(getMovieClip("startGameBtn"), "Начать");

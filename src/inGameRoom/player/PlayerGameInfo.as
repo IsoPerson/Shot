@@ -1,5 +1,6 @@
 package inGameRoom.player {
 	import abilityes.Ability;
+	import Events.CardEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import graphic.AbilityInfoView;
@@ -17,9 +18,7 @@ package inGameRoom.player {
 		
 		private var _abilityList:Vector.<Ability>;
 		//[Bindable(event="privateCardsUpdate")]
-		private var _privateCards:Vector.<Card>;
-		//[Bindable(event="openCardsUpdate")]
-		private var _openCards:Vector.<Card>;
+		private var _cards:Vector.<Card>;
 		
 		public static const PRIVATE_CARDS_UPDATE:String = "privateCardsUpdate";
 		public static const OPEN_CARDS_UPDATE:String = "openCardsUpdate";
@@ -46,6 +45,8 @@ package inGameRoom.player {
 		public function set hp(value:int):void {
 			_hp = value;
 		}
+		
+		//public function set cards(value)
 		/*
 		public function set privateCards(value:Vector.<Card>):void {
 			_privateCards = value;
@@ -73,24 +74,49 @@ package inGameRoom.player {
 		public function get hp():int {
 			return _hp;
 		}
-		public function get privateCards():Vector.<Card> {
-			return _privateCards;
-		}
-		public function get openCards():Vector.<Card> {
-			return _openCards;
+		public function get cards():Vector.<Card> {
+			return _cards;
 		}
 		public function get abilityList():Vector.<Ability> {
 			return _abilityList;
 		}
 		
-		public function addPrivateCard(value:Card):void {
-			_privateCards.push(value);
-			dispatchEvent(new Event(PRIVATE_CARDS_UPDATE));
+		public function addCard(value:Card):void {
+			if (!_cards) { _cards = new Vector.<Card>(); }
+			_cards.push(value);
+			addCardListeners(value);
+			dispatchEvent(new CardEvent(CardEvent.CARDS_UPDATE));
 		}
-		public function addPublicCard(value:Card):void {
-			_openCards.push(value);
-			dispatchEvent(new Event(OPEN_CARDS_UPDATE));
+		public function getCard(id:int):Card {
+			for each (var card:Card in _cards) {
+				if (card.id == id) { return card; }
+			}
+			return null;
 		}
 		
+		public function existsCard(cardId:int):Boolean {
+			for each (var card:Card in _cards) {
+				if (card.id == cardId) { return true; }
+			}
+			return false;
+		}
+		
+		public function removeCards():void {
+			while (_cards.length > 0) {
+				removeCardListeners(_cards.shift());
+				dispatchEvent(new CardEvent(CardEvent.CARDS_UPDATE));
+			}
+		}
+		
+		private function addCardListeners(card:Card):void {
+			card.addEventListener(CardEvent.OPEN_CARD_ON_TABLE, openOnTableHandler);
+		}
+		private function removeCardListeners(card:cards.Card):void {
+			card.removeEventListener(CardEvent.OPEN_CARD_ON_TABLE, openOnTableHandler);
+		}
+		
+		private function openOnTableHandler(event:CardEvent):void {
+			dispatchEvent(new CardEvent(CardEvent.OPEN_CARD_ON_TABLE));
+		}
 	}
 }

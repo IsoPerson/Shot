@@ -11,6 +11,7 @@
 		private var _nPlayers:int;
 		private var _qPlayers:int;
 		private var _type:String;
+		private var _players:Vector.<PlayerInfo>;
 		
 		public function GameInfo(item:XML) 
 		{

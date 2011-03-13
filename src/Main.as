@@ -3,6 +3,7 @@
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import gameChat.Chat;
+	import managers.LayersManager;
 	
 	import menu.MainMenu;
 	import managers.WindowsManager;
@@ -14,6 +15,7 @@
 	 * ...
 	 * @author Chip
 	 */
+	[SWF(width=800, height=800, frameRate=25)]
 	public class Main extends Sprite {
 		private var mainMenu:MainMenu;
 		private var chat:Chat;
@@ -27,15 +29,17 @@
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			trace("privetstvuyu");
 			
+			LayersManager.getInstance().layersContainer = this;
+			LayersManager.getInstance().registerLayers();
 			var vkFriends:VkFriends = new VkFriends();
-			//vkFriends.loadData();
 			stage.scaleMode = StageScaleMode.NO_SCALE;
-			WindowsManager.setStage(this);
+			WindowsManager.getInstance().setRoomsStage(LayersManager.getInstance().getLayer(LayersManager.ROOMS));
+			WindowsManager.getInstance().setWindowsStage(LayersManager.getInstance().getLayer(LayersManager.WINDOWS));
 			mainMenu = new MainMenu();
 			chat = new Chat();
-			addChild(mainMenu.view);
-			addChild(chat.view);
-			
+			LayersManager.getInstance().getLayer(LayersManager.BASE).addChild(mainMenu.view);
+			LayersManager.getInstance().getLayer(LayersManager.BASE).addChild(chat.view);
+
 			//addChild(testGraphic);
 		}
 		

@@ -15,7 +15,7 @@ package inGameRoom.player {
 			_vip = value;
 		}
 		public function set position(value:uint):void {
-			_position = position;
+			_position = value;
 		}
 		
 		public function get vip():Boolean {

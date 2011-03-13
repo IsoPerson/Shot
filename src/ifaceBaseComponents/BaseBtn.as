@@ -11,10 +11,10 @@ package ifaceBaseComponents {
 	 * @author Chip
 	 */
 	public class BaseBtn extends ViewController{		
-		private var baseScale:Number;
+		protected var baseScale:Number;
 		
-		private var scaleOffset:Number = .06;
-		private var animationSpeed:Number = .4;
+		protected var scaleOffset:Number = .06;
+		protected var animationSpeed:Number = .4;
 		
 		public function BaseBtn(view:MovieClip) {
 			super(view);
@@ -34,14 +34,14 @@ package ifaceBaseComponents {
 			TweenMax.to(view, animationSpeed, { scaleX: baseScale + scaleOffset, scaleY: baseScale + scaleOffset } );
 		}
 		
-		private function unshift():void {
+		protected function unshift():void {
 			TweenMax.to(view, animationSpeed, { scaleX: baseScale, scaleY: baseScale } );
 		}
 		
-		private function mouseOverHandler(event:MouseEvent):void {
+		protected function mouseOverHandler(event:MouseEvent):void {
 			scaleTo();
 		}
-		private function mouseOutHandler(event:MouseEvent):void {
+		protected function mouseOutHandler(event:MouseEvent):void {
 			unshift();
 		}
 		
