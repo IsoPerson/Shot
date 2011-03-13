@@ -1,16 +1,23 @@
 package gameRooms {
 	import Controllers.GameController;
+	
 	import Events.GameRoomEvent;
 	import Events.WindowEvent;
+	
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	
 	import gameWindows.Window;
+	
 	import graphic.GameRoomView;
 	import graphic.TabWaitingForPlayersView;
+	
 	import ifaceBaseComponents.BaseBtn;
 	import ifaceBaseComponents.BaseTextBtn;
+	
 	import inGameRoom.TabWaitingForPlayers;
+	
 	import managers.WindowsManager;
 	/**
 	 * ...
@@ -39,20 +46,23 @@ package gameRooms {
 			_endMoveBtn.view.visible = true;
 		}
 		
+		public function get tabWaiting():TabWaitingForPlayers {
+			return _tabWaiting;
+		}
+		
 		public function showWaitingTab():void {
 			view.addChild(_tabWaiting.view);
-			_tabWaiting.addEventListener(WindowEvent.CLOSE, closeWaitingTabHandler);
 		}
-		private function removeWaitingTab():void {
-			if (view.contains(_tabWaiting.view)) {
-				view.removeChild(_tabWaiting.view);
-				dispatchEvent(new GameRoomEvent(GameRoomEvent.READY_FOR_PLAYERS));
-			}
-		}
-		private function closeWaitingTabHandler(event:WindowEvent):void {
+		public function closeWaitingTab():void {
 			removeWaitingTab();
 		}
 		
+		private function removeWaitingTab():void {
+			if (view.contains(_tabWaiting.view)) {
+				view.removeChild(_tabWaiting.view);
+			}
+		}
+
 		private function initObjects():void {
 			_exitBtn = new BaseBtn(getMovieClip("exitBtn"));
 			_endMoveBtn = new BaseTextBtn(getMovieClip("btnEndStep"), "Конец хода");

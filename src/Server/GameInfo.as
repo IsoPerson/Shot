@@ -29,8 +29,9 @@
 		}
 		
 		private function fillPlayers(item:XML):void {
-			for each (var player:XML in item.players.*) {
-				
+			_players = new Vector.<PlayerInfo>();
+			for each (var playerXML:XML in item.players.*) {
+				_players.push(new PlayerInfo(playerXML));
 			}
 		}
 		

@@ -1,12 +1,16 @@
 package inGameRoom {
-	import com.greensock.text.SplitTextField;
+	import Controllers.ViewController;
+	
+	import Events.WindowEvent;
+	
 	import com.greensock.TweenMax;
 	import com.greensock.easing.Quad;
-	import Controllers.ViewController;
-	import Events.WindowEvent;
+	import com.greensock.text.SplitTextField;
+	
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
+	
 	import graphic.TabWaitingForPlayersView;
 	
 	/**
@@ -16,6 +20,9 @@ package inGameRoom {
 	public class TabWaitingForPlayers extends ViewController {
 		private var _nPlayersTxt:TextField;
 		
+		private const START_TEXT:String = "Ожидание игроков";
+		private const BASE_TEXT:String = "Ожидание игроков, еще";
+		
 		public function TabWaitingForPlayers() {
 			super(new TabWaitingForPlayersView());
 			view.x = 400;
@@ -23,38 +30,22 @@ package inGameRoom {
 			view.buttonMode = true;
 			view.mouseChildren = false;
 			initObjects();
-			addListeners();
+		}
+		
+		public function setNumPlayersForWaiting(nPlayers:int):void{
+			setText(BASE_TEXT + nPlayers.toString());
 		}
 		
 		private function initObjects():void {
 			_nPlayersTxt = getTextField("nPlayersTxt");
-			_nPlayersTxt.text = "Добавить игроков";
+			setText(START_TEXT);
 			_nPlayersTxt.autoSize = TextFieldAutoSize.CENTER;
 			_nPlayersTxt.multiline = true;
 		}
 		
-		private function addListeners():void {
-			view.addEventListener(MouseEvent.CLICK, clickTextHandler);
-		}
-		
-		private function clickTextHandler(event:MouseEvent):void {
-			animateText();
-		}
-		
-		private function animateText():void {
-				var stf:SplitTextField = new SplitTextField(_nPlayersTxt);
-				for (var i:int = stf.textFields.length - 1; i > -1; i--) {
-					TweenMax.to(stf.textFields[i], 1, { blurFilter: { blurX:10, blurY:10 }, x:Math.random() * 650 - 100,
-												y:Math.random() * 350 - 100, scaleX:Math.random() * 4 - 2, scaleY:Math.random() * 4 - 2,
-												rotation:Math.random() * 360 - 180, autoAlpha:0, delay:Math.random() * 0.5,
-												ease:Quad.easeIn, repeat:1, yoyo:true, repeatDelay:1.2, onComplete: onAnimationComplete});
-				}
-		}
-		
-		private function onAnimationComplete():void {
-			dispatchEvent(new WindowEvent(WindowEvent.CLOSE, null));
+		private function setText(value:String):void{
+			_nPlayersTxt.text = value;
 		}
 		
 	}
-
 }
