@@ -93,7 +93,6 @@ package Controllers {
 		
 		//server handlers
 		private function gameInfoUpdate(event:ServerEvent):void {
-			
 		}
 		private function startGameHandler(event:ServerEvent):void {
 			startGame();

@@ -140,6 +140,10 @@ package Server {
 		public function giveMeGameInfoPlease(game_id:String):void {
 			_serverGameRequests.startGetGameInfo(game_id);
 		}
+		public function stopGetGameInfo():void{
+			_serverGameRequests.stopGetGameInfo();
+		}
+		
 		public function createGameRequest(user_id:Number, qPlayers:int, type:String, stake:int):void 
 		{
 			_gamesCreate = new CreateGame(user_id, qPlayers, type, stake);

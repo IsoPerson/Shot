@@ -1,21 +1,24 @@
 package Server {
 	import flash.display.Loader;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.events.TimerEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.utils.Timer;
-	import flash.events.TimerEvent;
-	import flash.events.Event;
+
 	/**
 	 * ...
 	 * @author Chip
 	 */
-	public class ServerGameRequests{
+	public class ServerGameRequests extends EventDispatcher{
 		private var timerGetInfo:Timer;
 		
 		private var _loader:URLLoader;
 		private var _request:URLRequest;
 		
 		private var _data:IServerInfo;
+		private var _gameInfo:GameInfo;
 		
 		public function ServerGameRequests() {
 			timerGetInfo = new Timer(1000);
@@ -35,6 +38,11 @@ package Server {
 			timerGetInfo.start();
 		}
 		
+		public function stopGetGameInfo():void{
+			timerGetInfo.stop();
+			_loader.removeEventListener(Event.COMPLETE, loadCompleteHandler);
+		}
+		
 		private function timerHandler(event:TimerEvent):void {
 			loadGameInfo();
 		}
@@ -47,6 +55,7 @@ package Server {
 		
 		private function loadCompleteHandler(event:Event):void {
 			var response:XML = new XML(_loader.data);
+			_gameInfo.updateData(response);
 		}
 	
 	}
