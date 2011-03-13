@@ -4,7 +4,7 @@ import flash.net.*;
 
 public class FindGame extends EventDispatcher{
 	private var url_loader:URLLoader;
-	private var _info:FindGameInfo;
+	private var _info:GameInfo;
 	private var _userId:String;
 	
 	public function FindGame(user_id:String){
@@ -23,7 +23,7 @@ public class FindGame extends EventDispatcher{
 	}
 	
 	private function onLoaded(e:Event):void{
-		_info = new FindGameInfo(new XML(url_loader.data));
+		_info = new GameInfo(new XML(url_loader.data));
 		dispatchEvent(new ServerEvent(ServerEvent.FIND_GAME, _info));
 	}
 	
@@ -31,7 +31,7 @@ public class FindGame extends EventDispatcher{
 		trace("[cant load findGame data]");
 	}
 	
-	public function get info():FindGameInfo{
+	public function get info():GameInfo{
 		return _info;
 	}
 }

@@ -30,7 +30,8 @@ package Server {
 			return _data;
 		}
 		
-		public function startGetGameInfo(game_id:String):void {
+		public function startGetGameInfo(game_id:String, gameInfo:GameInfo):void {
+			_gameInfo = gameInfo;
 			_request = new URLRequest(ServerPaths.SERVER_URL + "getGameInfo.php?game_id=" + game_id);
 			_loader = new URLLoader();
 			_loader.addEventListener(Event.COMPLETE, loadCompleteHandler);

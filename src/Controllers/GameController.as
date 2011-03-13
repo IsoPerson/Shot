@@ -6,6 +6,7 @@ package Controllers {
 	import Server.GameInfo;
 	import Server.IServerInfo;
 	import Server.ServerEvent;
+	import Server.ServerEvents.ServerGameEvent;
 	import Server.ServerFacade;
 	
 	import gameRooms.BankRoom;
@@ -16,6 +17,7 @@ package Controllers {
 	import inGameRoom.player.PlayerController;
 	
 	import managers.WindowsManager;
+
 	/**
 	 * ...
 	 * @author Chip
@@ -43,6 +45,7 @@ package Controllers {
 		
 		public function initGame(gameInfo:IServerInfo):void {
 			this.gameInfo = gameInfo as GameInfo;
+			this.gameInfo.addEventListener(ServerGameEvent.GAME_INFO_UPDATED, gameInfoUpdatedHandler);
 			game_id = this.gameInfo.id.toString();
 			_moveController = new MoveController();
 			_packController = new PackController(_players);
@@ -54,18 +57,21 @@ package Controllers {
 		}
 		
 		private function startGame():void {
+			gameInfo.addEventListener(ServerGameEvent.GAME_INFO_UPDATED, gameInfoUpdatedHandler);
 			_packController.createTestPack();
 			_packController.startGame();
 			_moveController.startGame();
 		}
 		
 		private function sendServerEvents():void {
-			serverFacade.giveMeGameInfoPlease(game_id);
+			serverFacade.giveMeGameInfoPlease(game_id, gameInfo);
 		}
 		
 		private function addServerListeners():void {
 			serverFacade.addEventListener(ServerEvent.GAME_START, startGameHandler);
-			serverFacade.addEventListener(ServerEvent.GAME_INFO_UPDATE, gameInfoUpdate);
+		}
+		private function removeServerListeners():void{
+			serverFacade.removeEventListener(ServerEvent.GAME_START, startGameHandler);
 		}
 		
 		private function addListeners():void {
@@ -92,9 +98,11 @@ package Controllers {
 		}
 		
 		//server handlers
-		private function gameInfoUpdate(event:ServerEvent):void {
+		private function gameInfoUpdatedHandler(event:ServerGameEvent):void {
+			
 		}
 		private function startGameHandler(event:ServerEvent):void {
+			removeServerListeners();
 			startGame();
 		}
 		

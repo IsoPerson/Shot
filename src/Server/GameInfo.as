@@ -1,6 +1,9 @@
 ﻿package Server {
+import Server.ServerEvents.ServerGameEvent;
+
+import flash.events.EventDispatcher;
 	
-	public class GameInfo  implements IServerInfo {
+	public class GameInfo  extends EventDispatcher implements IServerInfo {
 
 		private var _name:String;
 		private var _id:Number;
@@ -40,6 +43,7 @@
 			_type = String(item.type);
 			
 			if (item) { fillPlayers(item); }
+			dispatchEvent(new ServerGameEvent(ServerGameEvent.GAME_INFO_UPDATED));
 		}
 		
 	}

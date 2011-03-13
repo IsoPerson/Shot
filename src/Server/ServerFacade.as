@@ -137,8 +137,9 @@ package Server {
 		}
 		
 		//----------------about game
-		public function giveMeGameInfoPlease(game_id:String):void {
-			_serverGameRequests.startGetGameInfo(game_id);
+		public function giveMeGameInfoPlease(game_id:String, gameInfo:GameInfo):void {
+			_serverGameRequests.startGetGameInfo(game_id, gameInfo);
+			//_serverGameRequests.
 		}
 		public function stopGetGameInfo():void{
 			_serverGameRequests.stopGetGameInfo();
