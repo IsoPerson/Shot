@@ -27,7 +27,6 @@ package inGameRoom {
 			super(new TabWaitingForPlayersView());
 			view.x = 400;
 			view.y = 300;
-			view.buttonMode = true;
 			view.mouseChildren = false;
 			initObjects();
 		}
